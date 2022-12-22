@@ -1,5 +1,5 @@
 const app = require("./app");
-// const cloudinary = require("cloudinary");
+const cloudinary = require("cloudinary");
 
 // Handling Uncaught Exception
 process.on("uncaughtException", (err) => {
@@ -17,11 +17,11 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 const connectDB = require("./config/database");
 connectDB();
 
-// cloudinary.config({
-//   cloud_name: process.env.CLOUDINARY_NAME,
-//   api_key: process.env.CLOUDINARY_API_KEY,
-//   api_secret: process.env.CLOUDINARY_API_SECRET,
-// });
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const server = app.listen(process.env.PORT, () => {
   console.log(

@@ -14,7 +14,7 @@
 }
 
 .sidebar > a > img:hover {
-  filter: drop-shadow(0 0 10px tomato);
+  filter: drop-shadow(0 0 10px #097969bf);
 }
 .sidebar a {
   text-decoration: none;
@@ -24,7 +24,7 @@
   transition: all 0.5s;
 }
 .sidebar a:hover {
-  color: tomato;
+  color: #097969bf;
   transform: scale(1.1);
 }
 

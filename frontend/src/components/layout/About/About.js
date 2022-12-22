@@ -16,11 +16,11 @@ const About = () => {
 
         <div>
           <div>
-            {/* <Avatar
+            <Avatar
               style={{ width: "10vmax", height: "10vmax", margin: "2vmax 0" }}
               src="https://res.cloudinary.com/dwkg4auqj/image/upload/v1666299343/avatars/img-modified_bmtsao.png"
               alt="Founder"
-            /> */}
+            />
             <Typography>Talha Riaz</Typography>
             <Button onClick={visitInstagram} color="primary">
               Visit Instagram

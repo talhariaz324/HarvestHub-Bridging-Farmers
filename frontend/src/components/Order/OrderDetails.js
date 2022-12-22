@@ -63,7 +63,7 @@ const OrderDetails = () => {
                     className={
                       order.paymentInfo &&
                       order.paymentInfo.status === "succeeded"
-                        ? "greenColor"
+                        ? "#097969Color"
                         : "redColor"
                     }
                   >
@@ -84,7 +84,7 @@ const OrderDetails = () => {
                   <p
                     className={
                       order.orderStatus && order.orderStatus === "Delivered"
-                        ? "greenColor"
+                        ? "#097969Color"
                         : "redColor"
                     }
                   >

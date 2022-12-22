@@ -1,13 +1,15 @@
 import React, { Fragment } from "react";
 import "./ConfirmOrder.css";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import CheckoutSteps from "./CheckOutSteps";
-import { useSelector } from "react-redux";
 import MetaData from "../layout/MetaData";
 import { Link } from "react-router-dom";
-import { Typography } from "@material-ui/core";
 
+import { Typography } from "@material-ui/core";
+import { createOrder } from "../../actions/orderAction";
 const ConfirmOrder = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { shippingInfo, cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
@@ -36,6 +38,21 @@ const ConfirmOrder = () => {
     sessionStorage.setItem("orderInfo", JSON.stringify(data));
 
     navigate("/process/payment");
+  };
+
+  const cashOnDelivery = () => {
+    const data = {
+      shippingInfo,
+      orderItems: cartItems,
+      subtotal,
+      shippingCharges,
+      tax,
+      totalPrice,
+    };
+
+    dispatch(createOrder(data));
+
+    navigate("/success");
   };
 
   return (
@@ -107,6 +124,7 @@ const ConfirmOrder = () => {
             </div>
 
             <button onClick={proceedToPayment}>Proceed To Payment</button>
+            <button onClick={cashOnDelivery}>Cash on Delivery</button>
           </div>
         </div>
       </div>

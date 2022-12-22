@@ -26,7 +26,7 @@ const UserOptions = ({ user }) => {
     {
       icon: (
         <ShoppingCartIcon
-          style={{ color: cartItems.length > 0 ? "tomato" : "unset" }}
+          style={{ color: cartItems.length > 0 ? "#097969" : "unset" }}
         />
       ),
       name: `Cart`,
@@ -72,13 +72,13 @@ const UserOptions = ({ user }) => {
         open={open}
         direction="down"
         className="speedDial"
-        // icon={
-        //   <img
-        //     className="speedDialIcon"
-        //     src={user.avatar.url ? user.avatar.url : "/Profile.png"}
-        //     alt="Profile"
-        //   />
-        // }
+        icon={
+          <img
+            className="speedDialIcon"
+            src={user.avatar.url ? user.avatar.url : "/Profile.png"}
+            alt="Profile"
+          />
+        }
       >
         {options.map((item) => (
           <SpeedDialAction

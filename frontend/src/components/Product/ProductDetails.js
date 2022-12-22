@@ -146,7 +146,9 @@ export default function ProductDetails() {
                 </div>
                 <p>
                   Status:
-                  <b className={product.Stock < 1 ? "redColor" : "greenColor"}>
+                  <b
+                    className={product.Stock < 1 ? "redColor" : "#097969Color"}
+                  >
                     {product.Stock < 1 ? "OutOfStock" : "InStock"}
                   </b>
                 </p>

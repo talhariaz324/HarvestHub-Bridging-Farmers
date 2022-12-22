@@ -7,12 +7,12 @@ import { FiShoppingBag } from "react-icons/fi";
 const Header = () => {
   return (
     <ReactNavbar
-      burgerColorHover="#eb4034"
+      burgerColorHover="#097969"
       logo={logo}
       logoWidth="20vmax"
       navColor1="white"
       logoHoverSize="10px"
-      logoHoverColor="#eb4034"
+      logoHoverColor="#097969"
       link1Text="Home"
       link2Text="Products"
       link3Text="Contact"
@@ -27,21 +27,21 @@ const Header = () => {
       nav2justifyContent="flex-end"
       nav3justifyContent="flex-start"
       nav4justifyContent="flex-start"
-      link1ColorHover="#eb4034"
+      link1ColorHover="#097969"
       link1Margin="1vmax"
       profileIcon={true}
       ProfileIconElement={FaUserCircle}
       profileIconUrl="/login"
       profileIconColor="rgba(35, 35, 35,0.8)"
-      profileIconColorHover="#eb4034"
+      profileIconColorHover="#097969"
       searchIcon={true}
       SearchIconElement={FaSearch}
       searchIconColor="rgba(35, 35, 35,0.8)"
-      searchIconColorHover="#eb4034"
+      searchIconColorHover="#097969"
       cartIcon={true}
       CartIconElement={FiShoppingBag}
       cartIconColor="rgba(35, 35, 35,0.8)"
-      cartIconColorHover="#eb4034"
+      cartIconColorHover="#097969"
       cartIconMargin="1vmax"
     />
   );

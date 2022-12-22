@@ -73,7 +73,7 @@ const UsersList = () => {
       flex: 0.3,
       cellClassName: (params) => {
         return params.getValue(params.id, "role") === "admin"
-          ? "greenColor"
+          ? "#097969BFColor"
           : "redColor";
       },
     },

@@ -99,7 +99,7 @@ const ProcessOrder = () => {
                         className={
                           order.paymentInfo &&
                           order.paymentInfo.status === "succeeded"
-                            ? "greenColor"
+                            ? "#097969BFColor"
                             : "redColor"
                         }
                       >
@@ -122,7 +122,7 @@ const ProcessOrder = () => {
                       <p
                         className={
                           order.orderStatus && order.orderStatus === "Delivered"
-                            ? "greenColor"
+                            ? "#097969BFColor"
                             : "redColor"
                         }
                       >

@@ -61,7 +61,7 @@ function App() {
     // getStripeApiKey();
   }, []);
 
-  window.addEventListener("contextmenu", (e) => e.preventDefault());
+  // window.addEventListener("contextmenu", (e) => e.preventDefault());
 
   return (
     <div>
@@ -104,10 +104,10 @@ function App() {
               <Route exact path="/order/:id" element={<OrderDetails />} />
               <Route exact path="/admin/dashboard" element={<Dashboard />} />
               <Route exact path="/admin/products" element={<ProductList />} />
-              <Route exact path="/admin/product" element={<NewProduct />} />
+              <Route exact path="/vendor/product" element={<NewProduct />} />
               <Route
                 exact
-                path="/admin/product/:id"
+                path="/vendor/product/:id"
                 element={<UpdateProduct />}
               />
               <Route exact path="/admin/orders" element={<OrderList />} />

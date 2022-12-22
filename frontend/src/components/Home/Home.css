@@ -1,5 +1,5 @@
 .banner {
-  background-image: url("../../images/cover.jfif");
+  background-image: url("https://c4.wallpaperflare.com/wallpaper/674/65/161/farm-farmers-water-drops-rice-wallpaper-preview.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -46,7 +46,7 @@
   position: absolute;
   top: 0%;
   left: 0;
-  clip-path: polygon(100% 68%, 0 100%, 100% 100%);
+  clip-path: polygon(100% 83%, 0 100%, 100% 100%);
   max-width: 100%;
 }
 
@@ -106,7 +106,7 @@
 
 .productCard > span {
   margin: 0.5vmax;
-  color: tomato;
+  color: #097969;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   font-size: 1vmax;
 }

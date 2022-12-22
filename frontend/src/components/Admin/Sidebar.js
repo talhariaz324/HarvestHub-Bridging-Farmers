@@ -16,7 +16,7 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <Link to="/">
-        <img src={logo} alt="Ecommerce" />
+        <img src={logo} alt="Kisan Sahulat" />
       </Link>
       <Link to="/admin/dashboard">
         <p>
@@ -33,7 +33,7 @@ const Sidebar = () => {
               <TreeItem nodeId="2" label="All" icon={<PostAddIcon />} />
             </Link>
 
-            <Link to="/admin/product">
+            <Link to="/vendor/product">
               <TreeItem nodeId="3" label="Create" icon={<AddIcon />} />
             </Link>
           </TreeItem>

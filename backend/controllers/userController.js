@@ -7,11 +7,11 @@ const crypto = require("crypto");
 const cloudinary = require("cloudinary");
 
 exports.registerUser = catchAsyncError(async (req, res, next) => {
-  // const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-  //   folder: "avatars", // Before Testing must make folder with this name in the cloudinary
-  //   width: 150,
-  //   crop: "scale",
-  // });
+  const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+    folder: "avatars", // Before Testing must make folder with this name in the cloudinary
+    width: 150,
+    crop: "scale",
+  });
 
   const { name, email, password, role } = req.body;
   const user = await User.create({
@@ -19,10 +19,10 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
     email,
     password,
     role,
-    // avatar: {
-    //   public_id: myCloud.public_id,
-    //   url: myCloud.secure_url,
-    // },
+    avatar: {
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url,
+    },
   });
 
   const token = user.getJWTToken();
@@ -79,7 +79,7 @@ exports.forgotPassword = catchAsyncError(async (req, res, next) => {
   try {
     await sendEmail({
       email: user.email,
-      subject: "Ecommerce reset",
+      subject: "Kisan Sahulat reset",
       message,
     });
     res.status(200).json({
@@ -160,24 +160,24 @@ exports.updateUserProfile = catchAsyncError(async (req, res, next) => {
     name: req.body.name,
   };
 
-  // if (req.body.avatar !== "") {
-  //   const user = await User.findById(req.user.id);
+  if (req.body.avatar !== "") {
+    const user = await User.findById(req.user.id);
 
-  //   const imageId = user.avatar.public_id;
+    const imageId = user.avatar.public_id;
 
-  //   await cloudinary.v2.uploader.destroy(imageId);
+    await cloudinary.v2.uploader.destroy(imageId);
 
-  //   const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-  //     folder: "avatars",
-  //     width: 150,
-  //     crop: "scale",
-  //   });
+    const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+      folder: "avatars",
+      width: 150,
+      crop: "scale",
+    });
 
-  //   newUserDetails.avatar = {
-  //     public_id: myCloud.public_id,
-  //     url: myCloud.secure_url,
-  //   };
-  // }
+    newUserDetails.avatar = {
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url,
+    };
+  }
 
   const updatedUser = await User.findByIdAndUpdate(
     req.user.id,
@@ -258,9 +258,9 @@ exports.deleteUser = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler(`No user found with id ${req.params.id}`));
   }
 
-  // const imageId = user.avatar.public_id;
+  const imageId = user.avatar.public_id;
 
-  // await cloudinary.v2.uploader.destroy(imageId);
+  await cloudinary.v2.uploader.destroy(imageId);
 
   await user.remove();
 

@@ -23,20 +23,21 @@ const userSchema = new mongoose.Schema({
     minLength: [8, "Password should be greater or equal to 8"],
     select: false, // In admin, when we filter users. then it will not show their password because select is false
   },
-  // avatar: {
-  //   public_id: {
-  //     // where we host image, it will give
-  //     type: String,
-  //     //   required: true,
-  //   },
-  //   url: {
-  //     type: String,
-  //     //   required: true,
-  //   },
-  // },
+  avatar: {
+    public_id: {
+      // where we host image, it will give
+      type: String,
+      //   required: true,
+    },
+    url: {
+      type: String,
+      //   required: true,
+    },
+  },
   role: {
     type: String,
     required: [true, "Please Enter Your Role"],
+    default: "admin",
   },
 
   createdAt: {

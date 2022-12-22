@@ -87,7 +87,7 @@ const ProductReviews = () => {
 
       cellClassName: (params) => {
         return params.getValue(params.id, "rating") >= 3
-          ? "greenColor"
+          ? "#097969BFColor"
           : "redColor";
       },
     },

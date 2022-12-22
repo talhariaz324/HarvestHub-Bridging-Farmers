@@ -3,7 +3,7 @@ import Sidebar from "./Sidebar.js";
 import "./dashboard.css";
 import { Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
-// import Chart from "chart.js/auto";
+import Chart from "chart.js/auto";
 import { Doughnut, Line } from "react-chartjs-2";
 import { useSelector, useDispatch } from "react-redux";
 import { getAdminProduct } from "../../actions/productAction";
@@ -46,7 +46,7 @@ const Dashboard = () => {
     datasets: [
       {
         label: "TOTAL AMOUNT",
-        backgroundColor: ["tomato"],
+        backgroundColor: ["#097969"],
         hoverBackgroundColor: ["rgb(197, 72, 49)"],
         data: [0, 4000],
       },

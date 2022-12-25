@@ -158,9 +158,11 @@ exports.updateUserProfile = catchAsyncError(async (req, res, next) => {
   const newUserDetails = {
     email: req.body.email,
     name: req.body.name,
+    role: req.body.role,
+    // avatar: req.body.avatar,
   };
 
-  if (req.body.avatar !== "") {
+  if (req.body.editAvatar == true && req.body.avatar !== "") {
     const user = await User.findById(req.user.id);
 
     const imageId = user.avatar.public_id;

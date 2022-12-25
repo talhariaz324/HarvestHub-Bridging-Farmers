@@ -11,7 +11,7 @@ import { getAllOrders } from "../../actions/orderAction.js";
 import { getAllUsers } from "../../actions/userAction.js";
 import MetaData from "../layout/MetaData";
 
-const Dashboard = () => {
+const Dashboard = ({ user }) => {
   const dispatch = useDispatch();
 
   const { products } = useSelector((state) => state.products);
@@ -59,16 +59,15 @@ const Dashboard = () => {
       {
         backgroundColor: ["#00A6B4", "#6800B4"],
         hoverBackgroundColor: ["#4B5000", "#35014F"],
-        data: [outOfStock, products.length - outOfStock],
+        data: [(outOfStock, products.length - outOfStock)],
         // data: [2, 10],
       },
     ],
   };
-
   return (
     <div className="dashboard">
       <MetaData title="Dashboard - Admin Panel" />
-      <Sidebar />
+      <Sidebar user={user} />
 
       <div className="dashboardContainer">
         <Typography component="h1">Dashboard</Typography>
@@ -89,11 +88,16 @@ const Dashboard = () => {
 
               <p>{orders && orders.length}</p>
             </Link>
-            <Link to="/admin/users">
-              <p>Users</p>
 
-              <p> {users && users.length} </p>
-            </Link>
+            {user.role === "admin" ? (
+              <Link to="/admin/users">
+                <p>Users</p>
+
+                <p> {users && users.length} </p>
+              </Link>
+            ) : (
+              ""
+            )}
           </div>
         </div>
 

@@ -22,6 +22,7 @@ const UpdateProfile = () => {
   const [email, setEmail] = useState("");
   const [avatar, setAvatar] = useState();
   const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
+  const [role1, setRole1] = useState("");
 
   const updateProfileSubmit = (e) => {
     e.preventDefault();
@@ -30,7 +31,9 @@ const UpdateProfile = () => {
 
     myForm.set("name", name);
     myForm.set("email", email);
+    myForm.set("role", role1);
     myForm.set("avatar", avatar);
+
     dispatch(updateProfile(myForm));
   };
 
@@ -39,6 +42,7 @@ const UpdateProfile = () => {
     reader.onload = () => {
       if (reader.readyState === 2) {
         setAvatarPreview(reader.result);
+        console.log(reader.result);
         setAvatar(reader.result);
       }
     };
@@ -49,6 +53,7 @@ const UpdateProfile = () => {
     if (user) {
       setName(user.name);
       setEmail(user.email);
+      setRole1(user.role);
       setAvatarPreview(user.avatar.url);
     }
 
@@ -106,6 +111,18 @@ const UpdateProfile = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
+                </div>
+                <div className="role1">
+                  <label htmlFor="role1">Select your role:</label>
+                  <select id="role1" onChange={(e) => setRole1(e.target.value)}>
+                    <option value="" selected>
+                      -- Please choose an option --
+                    </option>
+                    <option value="farmer">Farmer</option>
+                    <option value="vendor">Vendor</option>
+                    <option value="buyer">Buyer</option>
+                  </select>
+                  {/* {selectedFruit && <p>Selected fruit: {selectedFruit}</p>} */}
                 </div>
 
                 <div id="updateProfileImage">

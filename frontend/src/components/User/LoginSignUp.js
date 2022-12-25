@@ -31,12 +31,12 @@ const LoginSignUp = () => {
     email: "",
     password: "",
   });
+  const [role, setRole] = useState(null);
 
   const { name, email, password } = user;
 
   const [avatar, setAvatar] = useState("/Profile.png");
   const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
-
   const loginSubmit = (e) => {
     e.preventDefault();
     dispatch(login(loginEmail, loginPassword));
@@ -51,6 +51,7 @@ const LoginSignUp = () => {
     myForm.set("email", email);
     myForm.set("password", password);
     myForm.set("avatar", avatar);
+    myForm.set("role", role);
     dispatch(register(myForm));
   };
 
@@ -183,6 +184,15 @@ const LoginSignUp = () => {
                     value={password}
                     onChange={registerDataChange}
                   />
+                </div>
+                <div className="role">
+                  <label htmlFor="role">Select your role:</label>
+                  <select id="role" onChange={(e) => setRole(e.target.value)}>
+                    <option value="farmer">Farmer</option>
+                    <option value="vendor">Vendor</option>
+                    <option value="buyer">Buyer</option>
+                  </select>
+                  {/* {selectedFruit && <p>Selected fruit: {selectedFruit}</p>} */}
                 </div>
 
                 <div id="registerImage">

@@ -102,7 +102,11 @@ function App() {
               <Route exact path="/success" element={<OrderSuccess />} />
               <Route exact path="/orders" element={<MyOrders />} />
               <Route exact path="/order/:id" element={<OrderDetails />} />
-              <Route exact path="/admin/dashboard" element={<Dashboard />} />
+              <Route
+                exact
+                path="/admin/dashboard"
+                element={<Dashboard user={user} />}
+              />
               <Route exact path="/admin/products" element={<ProductList />} />
               <Route exact path="/vendor/product" element={<NewProduct />} />
               <Route

@@ -25,24 +25,13 @@ const NewProduct = () => {
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
+  const [onRent, setOnRent] = useState(false);
+  const [onRentPrice, setOnRentPrice] = useState("");
   const [Stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
-  const categories = [
-    "Laptop",
-    "Footwear",
-    "Bottom",
-    "Tops",
-    "Rings",
-    "Attire",
-    "Camera",
-    "Mobile Phones",
-    "Graphics Card",
-    "Mouse",
-    "Keyboard",
-    "Headphones",
-  ];
+  const categories = ["Machines", "Seeds", "Crops"];
 
   useEffect(() => {
     if (error) {
@@ -67,6 +56,8 @@ const NewProduct = () => {
     myForm.set("description", description);
     myForm.set("category", category);
     myForm.set("Stock", Stock);
+    myForm.set("onRent", onRent);
+    myForm.set("onRentPrice", onRentPrice);
 
     images.forEach((image) => {
       myForm.append("images", image);
@@ -150,6 +141,31 @@ const NewProduct = () => {
                 ))}
               </select>
             </div>
+            <div>
+              {/* <AccountTreeIcon /> */}
+              <label>
+                <input
+                  type="checkbox"
+                  checked={onRent}
+                  onChange={() => setOnRent(!onRent)}
+                />
+                On Rent?
+              </label>
+            </div>
+            {onRent === true ? (
+              <div>
+                <SpellcheckIcon />
+                <input
+                  type="text"
+                  placeholder="On Rent Price"
+                  required
+                  value={onRentPrice}
+                  onChange={(e) => setOnRentPrice(e.target.value)}
+                />
+              </div>
+            ) : (
+              ""
+            )}
 
             <div>
               <StorageIcon />

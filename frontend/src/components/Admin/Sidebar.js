@@ -11,8 +11,9 @@ import ListAltIcon from "@material-ui/icons/ListAlt";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
 import RateReviewIcon from "@material-ui/icons/RateReview";
-
+import { useSelector } from "react-redux";
 const Sidebar = () => {
+  const { user } = useSelector((state) => state.user);
   return (
     <div className="sidebar">
       <Link to="/">
@@ -45,11 +46,15 @@ const Sidebar = () => {
           Orders
         </p>
       </Link>
-      <Link to="/admin/users">
-        <p>
-          <PeopleIcon /> Users
-        </p>
-      </Link>
+      {user.role === "admin" ? (
+        <Link to="/admin/users">
+          <p>
+            <PeopleIcon /> Users
+          </p>
+        </Link>
+      ) : (
+        ""
+      )}
       <Link to="/admin/reviews">
         <p>
           <RateReviewIcon />

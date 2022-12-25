@@ -158,6 +158,23 @@
 .shiftToRight {
   transform: translateX(100%);
 }
+.role {
+  font-size: 18;
+  padding: 10;
+  border-radius: 40px;
+  border: "5px solid #097969";
+  /* padding-left: ; */
+}
+.role label {
+  color: #097969;
+  padding-left: 2px;
+  font-weight: bold;
+  margin-right: 6px;
+}
+.role option {
+  color: #097969;
+  font-weight: bold;
+}
 
 @media screen and (max-width: 600px) {
   .LoginSignUpContainer {

@@ -22,12 +22,46 @@ const Dashboard = ({ user }) => {
 
   let outOfStock = 0;
 
-  products &&
-    products.forEach((item) => {
-      if (item.stock === 0) {
-        outOfStock += 1;
+  const filterProducts =
+    products && products.filter((product) => product.user === user._id);
+  // console.log(filterProducts);
+  const orderedProductsIds = [];
+
+  orders &&
+    orders.filter((order) =>
+      order.orderItems.map((product) =>
+        orderedProductsIds.push(product.product)
+      )
+    );
+  const filterOrdererdProducts = orderedProductsIds.map((id) =>
+    products.filter((product) => product._id === id)
+  );
+  const filterOrders = [];
+  filterOrdererdProducts.map((products) =>
+    products.map((product) => {
+      if (product.user === user._id) {
+        filterOrders.push(product);
       }
-    });
+      return "";
+    })
+  );
+  console.log(filterOrders);
+
+  if (user.role === "admin") {
+    products &&
+      products.forEach((item) => {
+        if (item.stock === 0) {
+          outOfStock += 1;
+        }
+      });
+  } else {
+    filterProducts &&
+      filterProducts.forEach((item) => {
+        if (item.stock === 0) {
+          outOfStock += 1;
+        }
+      });
+  }
 
   useEffect(() => {
     dispatch(getAdminProduct());
@@ -36,10 +70,17 @@ const Dashboard = ({ user }) => {
   }, [dispatch]);
 
   let totalAmount = 0;
-  orders &&
-    orders.forEach((item) => {
-      totalAmount += item.totalPrice;
-    });
+  if (user.role === "admin") {
+    orders &&
+      orders.forEach((item) => {
+        totalAmount += item.totalPrice;
+      });
+  } else {
+    filterOrders &&
+      filterOrders.forEach((item) => {
+        totalAmount += item.price;
+      });
+  }
 
   const lineState = {
     labels: ["Initial Amount", "Amount Earned"],
@@ -59,7 +100,12 @@ const Dashboard = ({ user }) => {
       {
         backgroundColor: ["#00A6B4", "#6800B4"],
         hoverBackgroundColor: ["#4B5000", "#35014F"],
-        data: [(outOfStock, products.length - outOfStock)],
+        data: [
+          (outOfStock,
+          user.role === "admin"
+            ? products.length - outOfStock
+            : filterProducts.length - outOfStock),
+        ],
         // data: [2, 10],
       },
     ],
@@ -81,12 +127,20 @@ const Dashboard = ({ user }) => {
           <div className="dashboardSummaryBox2">
             <Link to="/admin/products">
               <p>Product</p>
-              <p>{products && products.length}</p>
+              <p>
+                {user.role === "admin"
+                  ? products && products.length
+                  : filterProducts && filterProducts.length}
+              </p>
             </Link>
             <Link to="/admin/orders">
               <p>Orders</p>
 
-              <p>{orders && orders.length}</p>
+              <p>
+                {user.role === "admin"
+                  ? orders && orders.length
+                  : filterOrders && filterOrders.length}
+              </p>
             </Link>
 
             {user.role === "admin" ? (

@@ -107,14 +107,22 @@ function App() {
                 path="/admin/dashboard"
                 element={<Dashboard user={user} />}
               />
-              <Route exact path="/admin/products" element={<ProductList />} />
+              <Route
+                exact
+                path="/admin/products"
+                element={<ProductList user={user} />}
+              />
               <Route exact path="/vendor/product" element={<NewProduct />} />
               <Route
                 exact
                 path="/vendor/product/:id"
                 element={<UpdateProduct />}
               />
-              <Route exact path="/admin/orders" element={<OrderList />} />
+              <Route
+                exact
+                path="/admin/orders"
+                element={<OrderList user={user} />}
+              />
               <Route exact path="/admin/order/:id" element={<ProcessOrder />} />
               <Route exact path="/admin/users" element={<UsersList />} />
               <Route exact path="/admin/user/:id" element={<UpdateUser />} />

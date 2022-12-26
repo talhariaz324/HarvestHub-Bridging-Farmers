@@ -16,13 +16,14 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import SideBar from "./Sidebar";
 import { DELETE_PRODUCT_RESET } from "../../constants/productConstants";
 
-const ProductList = () => {
+const ProductList = ({ user }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const alert = useAlert();
 
   const { error, products } = useSelector((state) => state.products);
-
+  const filterProducts =
+    products && products.filter((product) => product.user === user._id);
   const { error: deleteError, isDeleted } = useSelector(
     (state) => state.product
   );
@@ -105,15 +106,25 @@ const ProductList = () => {
 
   const rows = [];
 
-  products &&
-    products.forEach((item) => {
-      rows.push({
-        id: item._id,
-        stock: item.stock,
-        price: item.price,
-        name: item.name,
+  user.role === "admin"
+    ? products &&
+      products.forEach((item) => {
+        rows.push({
+          id: item._id,
+          stock: item.stock,
+          price: item.price,
+          name: item.name,
+        });
+      })
+    : filterProducts &&
+      filterProducts.forEach((item) => {
+        rows.push({
+          id: item._id,
+          stock: item.stock,
+          price: item.price,
+          name: item.name,
+        });
       });
-    });
 
   return (
     <Fragment>

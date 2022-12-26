@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     required: [true, "Please Enter Your Role"],
-    default: "admin",
+    default: "farmer",
   },
 
   createdAt: {

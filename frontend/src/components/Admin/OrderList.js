@@ -16,12 +16,37 @@ import {
 } from "../../actions/orderAction";
 import { DELETE_ORDER_RESET } from "../../constants/orderConstants";
 
-const OrderList = () => {
+const OrderList = ({ user }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const alert = useAlert();
-
+  const { products } = useSelector((state) => state.products);
   const { error, orders } = useSelector((state) => state.allOrders);
+  const orderedProductsIds = [];
+  let filterOrders = [];
+  let orderDetails = [];
+  orders &&
+    orders.filter((order) => {
+      // filterOrders.push(order);
+      order.orderItems.map(
+        (product) => orderedProductsIds.push(product.product),
+        orderDetails.push(order)
+      );
+      return "";
+    });
+  console.log(orderDetails);
+  const filterOrdererdProducts = orderedProductsIds.map((id) =>
+    products.filter((product) => product._id === id)
+  );
+  filterOrdererdProducts.map((products) =>
+    products.map((product) => {
+      if (product.user === user._id) {
+        filterOrders.push(product);
+      }
+      return "";
+    })
+  );
+  console.log(filterOrders);
 
   const { error: deleteError, isDeleted } = useSelector((state) => state.order);
 
@@ -108,15 +133,35 @@ const OrderList = () => {
 
   const rows = [];
 
-  orders &&
-    orders.forEach((item) => {
-      rows.push({
-        id: item._id,
-        itemsQty: item.orderItems.length,
-        amount: item.totalPrice,
-        status: item.orderStatus,
+  user.role === "admin"
+    ? orders &&
+      orders.forEach((item) => {
+        rows.push({
+          id: item._id,
+          itemsQty: item.orderItems.length,
+          amount: item.totalPrice,
+          status: item.orderStatus,
+        });
+      })
+    : filterOrders &&
+      filterOrders.forEach((pro) => {
+        let storeFindings;
+        orderDetails.map((orderItem) =>
+          orderItem.orderItems.find((item) => {
+            if (item.product === pro._id) {
+              storeFindings = orderItem;
+            }
+            return "";
+          })
+        );
+        console.log(storeFindings);
+        rows.push({
+          id: storeFindings._id,
+          itemsQty: storeFindings.orderItems.length,
+          amount: storeFindings.totalPrice,
+          status: storeFindings.orderStatus,
+        });
       });
-    });
 
   return (
     <Fragment>

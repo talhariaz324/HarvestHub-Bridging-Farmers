@@ -31,7 +31,7 @@ const LoginSignUp = () => {
     email: "",
     password: "",
   });
-  const [role, setRole] = useState(null);
+  const [role, setRole] = useState("farmer");
 
   const { name, email, password } = user;
 

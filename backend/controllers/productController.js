@@ -34,11 +34,11 @@ exports.createProduct = catchAsyncError(async (req, res, next) => {
   const product = await Product.create(req.body);
   res.status(201).json({
     success: true,
-    product: req.body, // for showing in postman
+    product, // for showing in postman
   });
 });
 
-// // For Getting All Products
+// For Getting All Products
 exports.getAllProducts = catchAsyncError(async (req, res) => {
   const resultsPerPage = 8;
   const productsCount = await Product.countDocuments();
@@ -140,7 +140,7 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
 
   product = await Product.findByIdAndUpdate(req.params.id, req.body, {
     new: true, // After new true If you set `new: true`, `findOneAndUpdate()` will instead give you the object after `update` was applied. and can show this obj in console.
-    runValidators: true, // Set to `true` to automatically sanitize potentially unsafe user-generated query
+    runValidato$true, // Set to `true` to automatically sanitize potentially unsafe user-generated query
     useFindAndModify: false, // It is mentioned in the mongodb docs that set it to false. Why? Because we can use native findByIdAndUpdate rather than find and modify which is by default true.
   });
 
@@ -259,7 +259,7 @@ exports.deleteReview = catchAsyncError(async (req, res, next) => {
 
     {
       new: true,
-      runValidators: true,
+      runValidato$true,
       useFindAndModify: false,
     }
   );

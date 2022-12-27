@@ -16,13 +16,14 @@ import { Button } from "@material-ui/core";
 import { UPDATE_ORDER_RESET } from "../../constants/orderConstants";
 import "./processOrder.css";
 
-const ProcessOrder = () => {
+const ProcessOrder = ({ user }) => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const { id } = useParams();
 
+  const { orders } = useSelector((state) => state.allOrders);
   const { order, error, loading } = useSelector((state) => state.orderDetails);
-
+  const { products } = useSelector((state) => state.products);
   const { error: updateError, isUpdated } = useSelector((state) => state.order);
 
   const [status, setStatus] = useState("");
@@ -54,6 +55,94 @@ const ProcessOrder = () => {
     dispatch(getOrderDetails(id));
   }, [dispatch, alert, error, id, isUpdated, updateError]);
 
+  const orderedProductsIds = [];
+  let filterOrders = [];
+  let orderDetails = [];
+  let storeFindings = [];
+  let uniqueFindings = [];
+  let findPrice = 0;
+  let moreThan2 = [];
+  let noMatch = [];
+  const value = {
+    name: "",
+    price: 0,
+    quantity: 0,
+    image: "",
+    product: "",
+  };
+  orders &&
+    orders.filter((order) => {
+      // filterOrders.push(order);
+      order.orderItems.map(
+        (product) => orderedProductsIds.push(product.product),
+        orderDetails.push(order)
+      );
+      return "";
+    });
+  // console.log(orders);
+  const filterOrdererdProducts = orderedProductsIds.map((id) =>
+    products.filter((product) => product._id === id)
+  );
+  filterOrdererdProducts.map((products) =>
+    products.map((product) => {
+      if (product.user === user._id) {
+        filterOrders.push(product);
+      }
+      return "";
+    })
+  );
+
+  filterOrders &&
+    filterOrders.forEach((pro) => {
+      orderDetails.map((orderItem) =>
+        orderItem.orderItems.forEach((item) => {
+          if (item.product === pro._id) {
+            if (orderItem.orderItems.length > 1) {
+              // console.log("greater than 1");
+              let newOrderItem = { ...orderItem };
+
+              moreThan2 = newOrderItem.orderItems.filter(
+                (item) => item.product === pro._id
+              );
+              let newNewOrderItem = { ...orderItem };
+              noMatch = newNewOrderItem.orderItems.filter(
+                (item) => item.product !== pro._id
+              );
+              newOrderItem.orderItems = moreThan2;
+              noMatch.map(
+                (noMatchs) =>
+                  (findPrice =
+                    newOrderItem.totalPrice - noMatchs.price * noMatch.length)
+              );
+
+              storeFindings.push(newOrderItem);
+              uniqueFindings = storeFindings.filter(
+                (checkItem, index, self) =>
+                  self.findIndex((t) => t._id === checkItem._id) === index
+              );
+            }
+            storeFindings.push(orderItem);
+            uniqueFindings = storeFindings.filter(
+              (checkItem, index, self) =>
+                self.findIndex((t) => t._id === checkItem._id) === index
+            );
+          }
+          return "";
+        })
+      );
+    });
+  uniqueFindings.map((orderItem) =>
+    orderItem.orderItems.map((single) => {
+      value.name = single.name;
+      value.quantity = single.quantity;
+      value.price = single.price;
+      value.image = single.image;
+      value.product = single.product;
+
+      return "";
+    })
+  );
+
   return (
     <Fragment>
       <MetaData title="Process Order" />
@@ -66,7 +155,8 @@ const ProcessOrder = () => {
             <div
               className="confirmOrderPage"
               style={{
-                display: order.orderStatus === "Delivered" ? "block" : "grid",
+                display:
+                  uniqueFindings.orderStatus === "Delivered" ? "block" : "grid",
               }}
             >
               <div>
@@ -112,7 +202,11 @@ const ProcessOrder = () => {
 
                     <div>
                       <p>Amount:</p>
-                      <span>{order.totalPrice && order.totalPrice}</span>
+                      <span>
+                        {user.role === "admin"
+                          ? order.totalPrice && order.totalPrice
+                          : findPrice && findPrice}
+                      </span>
                     </div>
                   </div>
 
@@ -134,7 +228,8 @@ const ProcessOrder = () => {
                 <div className="confirmCartItems">
                   <Typography>Your Cart Items:</Typography>
                   <div className="confirmCartItemsContainer">
-                    {order.orderItems &&
+                    {user.role === "admin" ? (
+                      order.orderItems &&
                       order.orderItems.map((item) => (
                         <div key={item.product}>
                           <img src={item.image} alt="Product" />
@@ -146,7 +241,19 @@ const ProcessOrder = () => {
                             <b>₹{item.price * item.quantity}</b>
                           </span>
                         </div>
-                      ))}
+                      ))
+                    ) : (
+                      <div key={value.product}>
+                        <img src={value.image} alt="Product" />
+                        <Link to={`/product/${value.product}`}>
+                          {value.name}
+                        </Link>{" "}
+                        <span>
+                          {value.quantity} X ₹{value.price} ={" "}
+                          <b>₹{value.price * value.quantity}</b>
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

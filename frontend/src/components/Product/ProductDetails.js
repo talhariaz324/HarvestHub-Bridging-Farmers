@@ -24,7 +24,7 @@ import {
   Button,
 } from "@material-ui/core";
 import { NEW_REVIEW_RESET } from "../../constants/productConstants";
-export default function ProductDetails() {
+export default function ProductDetails({ user }) {
   const alert = useAlert();
   const dispatch = useDispatch();
   const { product, loading, error } = useSelector(
@@ -53,7 +53,7 @@ export default function ProductDetails() {
     setQuantity(qty);
   };
   const addToCartHandler = () => {
-    dispatch(addItemsToCart(id, quantity));
+    dispatch(addItemsToCart(id, user._id, quantity));
     alert.success("Item Added To Cart");
   };
   const submitReviewToggle = () => {
@@ -147,9 +147,9 @@ export default function ProductDetails() {
                 <p>
                   Status:
                   <b
-                    className={product.Stock < 1 ? "redColor" : "#097969Color"}
+                    className={product.stock < 1 ? "redColor" : "#097969Color"}
                   >
-                    {product.Stock < 1 ? "OutOfStock" : "InStock"}
+                    {product.stock < 1 ? "OutOfstock" : "Instock"}
                   </b>
                 </p>
               </div>

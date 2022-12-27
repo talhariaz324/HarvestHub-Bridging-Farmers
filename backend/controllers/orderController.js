@@ -92,7 +92,7 @@ exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
 
   if (req.body.status === "Shipped") {
     order.orderItems.forEach(async (o) => {
-      await updateStock(o.product, o.quantity);
+      await updatestock(o.product, o.quantity);
     });
   }
   order.orderStatus = req.body.status;
@@ -107,7 +107,7 @@ exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-async function updateStock(id, quantity) {
+async function updatestock(id, quantity) {
   const product = await Product.findById(id);
 
   product.stock -= quantity;

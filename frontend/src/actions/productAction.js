@@ -94,7 +94,7 @@ export const createProduct = (productData) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `/api/v1/vendor/product/new`,
+      `/api/v1/admin/product/new`,
       productData,
       config
     );
@@ -124,7 +124,7 @@ export const updateProduct = (id, productData) => async (dispatch) => {
     };
 
     const { data } = await axios.put(
-      `/api/v1/vendor/product/${id}`,
+      `/api/v1/admin/product/${id}`,
       productData,
       config
     );
@@ -147,7 +147,7 @@ export const deleteProduct = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_PRODUCT_REQUEST });
 
-    const { data } = await axios.delete(`/api/v1/vendor/product/${id}`);
+    const { data } = await axios.delete(`/api/v1/admin/product/${id}`);
 
     dispatch({
       type: DELETE_PRODUCT_SUCCESS,

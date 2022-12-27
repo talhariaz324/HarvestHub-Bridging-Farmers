@@ -19,24 +19,28 @@ const Dashboard = ({ user }) => {
   const { orders } = useSelector((state) => state.allOrders);
 
   const { users } = useSelector((state) => state.allUsers);
-
-  let outOfStock = 0;
-
+  // const { loading, error, user } = useSelector((state) => state.userDetails);
+  let outOfstock = 0;
+  let storeFindings = [];
+  let uniqueFindings = [];
+  let moreThan2 = [];
+  let noMatch = [];
+  let filterOrders = [];
+  let orderDetails = [];
+  const orderedProductsIds = [];
   const filterProducts =
     products && products.filter((product) => product.user === user._id);
-  // console.log(filterProducts);
-  const orderedProductsIds = [];
-
   orders &&
     orders.filter((order) =>
-      order.orderItems.map((product) =>
-        orderedProductsIds.push(product.product)
+      order.orderItems.map(
+        (product) => orderedProductsIds.push(product.product),
+        orderDetails.push(order)
       )
     );
+  // console.log(orderDetails);
   const filterOrdererdProducts = orderedProductsIds.map((id) =>
     products.filter((product) => product._id === id)
   );
-  const filterOrders = [];
   filterOrdererdProducts.map((products) =>
     products.map((product) => {
       if (product.user === user._id) {
@@ -45,20 +49,59 @@ const Dashboard = ({ user }) => {
       return "";
     })
   );
-  console.log(filterOrders);
+  filterOrders &&
+    filterOrders.forEach((pro) => {
+      orderDetails.map((orderItem) =>
+        orderItem.orderItems.forEach((item) => {
+          if (item.product === pro._id) {
+            if (orderItem.orderItems.length > 1) {
+              // console.log("greater than 1");
+              let newOrderItem = { ...orderItem };
+
+              moreThan2 = newOrderItem.orderItems.filter(
+                (item) => item.product === pro._id
+              );
+              let newNewOrderItem = { ...orderItem };
+              noMatch = newNewOrderItem.orderItems.filter(
+                (item) => item.product !== pro._id
+              );
+              newOrderItem.orderItems = moreThan2;
+              noMatch.map(
+                (noMatchs) =>
+                  (newOrderItem.totalPrice =
+                    newOrderItem.totalPrice - noMatchs.price * noMatch.length)
+              );
+
+              storeFindings.push(newOrderItem);
+              uniqueFindings = storeFindings.filter(
+                (checkItem, index, self) =>
+                  self.findIndex((t) => t._id === checkItem._id) === index
+              );
+            }
+            storeFindings.push(orderItem);
+            uniqueFindings = storeFindings.filter(
+              (checkItem, index, self) =>
+                self.findIndex((t) => t._id === checkItem._id) === index
+            );
+          }
+          return "";
+        })
+      );
+    });
+  // console.log(uniqueFindings);
 
   if (user.role === "admin") {
     products &&
       products.forEach((item) => {
         if (item.stock === 0) {
-          outOfStock += 1;
+          outOfstock += 1;
         }
       });
   } else {
     filterProducts &&
       filterProducts.forEach((item) => {
         if (item.stock === 0) {
-          outOfStock += 1;
+          outOfstock += 1;
         }
       });
   }
@@ -70,18 +113,19 @@ const Dashboard = ({ user }) => {
   }, [dispatch]);
 
   let totalAmount = 0;
+  // console.log(orders);
   if (user.role === "admin") {
     orders &&
       orders.forEach((item) => {
         totalAmount += item.totalPrice;
       });
   } else {
-    filterOrders &&
-      filterOrders.forEach((item) => {
-        totalAmount += item.price;
+    // console.log(filterOrders);
+    uniqueFindings &&
+      uniqueFindings.forEach((item) => {
+        totalAmount += item.totalPrice;
       });
   }
-
   const lineState = {
     labels: ["Initial Amount", "Amount Earned"],
     datasets: [
@@ -95,21 +139,22 @@ const Dashboard = ({ user }) => {
   };
 
   const doughnutState = {
-    labels: ["Out of Stock", "InStock"],
+    labels: ["Out of stock", "Instock"],
     datasets: [
       {
         backgroundColor: ["#00A6B4", "#6800B4"],
         hoverBackgroundColor: ["#4B5000", "#35014F"],
         data: [
-          (outOfStock,
+          (outOfstock,
           user.role === "admin"
-            ? products.length - outOfStock
-            : filterProducts.length - outOfStock),
+            ? products.length - outOfstock
+            : filterProducts.length - outOfstock),
         ],
         // data: [2, 10],
       },
     ],
   };
+
   return (
     <div className="dashboard">
       <MetaData title="Dashboard - Admin Panel" />
@@ -121,7 +166,10 @@ const Dashboard = ({ user }) => {
         <div className="dashboardSummary">
           <div>
             <p>
-              Total Amount <br /> ₹{totalAmount}
+              {user.role === "admin"
+                ? "TOTAL AMOUNT (All Orders) "
+                : "TOTAL AMOUNT"}{" "}
+              <br /> ${totalAmount}
             </p>
           </div>
           <div className="dashboardSummaryBox2">
@@ -139,9 +187,14 @@ const Dashboard = ({ user }) => {
               <p>
                 {user.role === "admin"
                   ? orders && orders.length
-                  : filterOrders && filterOrders.length}
+                  : uniqueFindings && uniqueFindings.length}
               </p>
             </Link>
+            {/* <Link to="/admin/orders">
+              <p>Admin Orders</p>
+
+              <p>{uniqueFindings && uniqueFindings.length}</p>
+            </Link> */}
 
             {user.role === "admin" ? (
               <Link to="/admin/users">

@@ -27,7 +27,7 @@ const NewProduct = () => {
   const [category, setCategory] = useState("");
   const [onRent, setOnRent] = useState(false);
   const [onRentPrice, setOnRentPrice] = useState("");
-  const [Stock, setStock] = useState(0);
+  const [stock, setstock] = useState(0);
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
@@ -55,7 +55,7 @@ const NewProduct = () => {
     myForm.set("price", price);
     myForm.set("description", description);
     myForm.set("category", category);
-    myForm.set("Stock", Stock);
+    myForm.set("stock", stock);
     myForm.set("onRent", onRent);
     myForm.set("onRentPrice", onRentPrice);
 
@@ -171,9 +171,9 @@ const NewProduct = () => {
               <StorageIcon />
               <input
                 type="number"
-                placeholder="Stock"
+                placeholder="stock"
                 required
-                onChange={(e) => setStock(e.target.value)}
+                onChange={(e) => setstock(e.target.value)}
               />
             </div>
 

@@ -186,7 +186,7 @@ exports.updateUserProfile = catchAsyncError(async (req, res, next) => {
     newUserDetails,
     {
       new: true, // new value true
-      runValidators: true, // validate
+      runValidato$true, // validate
       useFindAndModify: false, // This is false because by default mongodb do find and do some change maybe
     }
   );
@@ -239,7 +239,7 @@ exports.updateUserRole = catchAsyncError(async (req, res, next) => {
     newUserDetails,
     {
       new: true, // new value true
-      runValidators: true, // validate
+      runValidato$true, // validate
       useFindAndModify: false, // This is false because by default mongodb do find and do some change maybe
     }
   );

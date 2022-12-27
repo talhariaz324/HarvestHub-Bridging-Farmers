@@ -72,7 +72,11 @@ function App() {
           {/* <Elements stripe={loadStripe(stripeApiKey)}> */}
           <Routes>
             <Route exact path="/" element={<Home />} />
-            <Route exact path="/product/:id" element={<ProductDetails />} />
+            <Route
+              exact
+              path="/product/:id"
+              element={<ProductDetails user={user} />}
+            />
             <Route exact path="/products" element={<Products />} />
             <Route path="/products/:keyword" element={<Products />} />
             <Route exact path="/search" element={<Search />} />
@@ -86,7 +90,7 @@ function App() {
               path="/password/reset/:token"
               element={<ResetPassword />}
             />
-            <Route exact path="/cart" element={<Cart />} />
+            <Route exact path="/cart" element={<Cart user={user} />} />
 
             {/* Protected Routes */}
 
@@ -123,7 +127,11 @@ function App() {
                 path="/admin/orders"
                 element={<OrderList user={user} />}
               />
-              <Route exact path="/admin/order/:id" element={<ProcessOrder />} />
+              <Route
+                exact
+                path="/admin/order/:id"
+                element={<ProcessOrder user={user} />}
+              />
               <Route exact path="/admin/users" element={<UsersList />} />
               <Route exact path="/admin/user/:id" element={<UpdateUser />} />
               <Route exact path="/admin/reviews" element={<ProductReviews />} />

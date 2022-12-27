@@ -7,17 +7,19 @@ import { Typography } from "@material-ui/core";
 import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
 import { Link, useNavigate } from "react-router-dom";
 
-const Cart = () => {
+const Cart = ({ user }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { cartItems } = useSelector((state) => state.cart);
-
+  let { cartItems } = useSelector((state) => state.cart);
+  // console.log(cartItems);
+  cartItems = cartItems.filter((cartItem) => cartItem.userId === user._id);
+  // console.log(cartItems);
   const increaseQuantity = (id, quantity, stock) => {
     const newQty = quantity + 1;
     if (stock <= quantity) {
       return;
     }
-    dispatch(addItemsToCart(id, newQty));
+    dispatch(addItemsToCart(id, user._id, newQty));
   };
 
   const decreaseQuantity = (id, quantity) => {
@@ -25,7 +27,7 @@ const Cart = () => {
     if (1 >= quantity) {
       return;
     }
-    dispatch(addItemsToCart(id, newQty));
+    dispatch(addItemsToCart(id, user._id, newQty));
   };
 
   const deleteCartItems = (id) => {

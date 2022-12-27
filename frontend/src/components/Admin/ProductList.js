@@ -63,7 +63,7 @@ const ProductList = ({ user }) => {
     },
     {
       field: "stock",
-      headerName: "Stock",
+      headerName: "stock",
       type: "number",
       minWidth: 100,
       flex: 0.3,

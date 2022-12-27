@@ -8,22 +8,24 @@ import { Link } from "react-router-dom";
 
 import { Typography } from "@material-ui/core";
 import { createOrder } from "../../actions/orderAction";
+import { removeItemsFromCart } from "../../actions/cartAction";
 const ConfirmOrder = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { shippingInfo, cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
 
+  console.log(cartItems);
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.quantity * item.price,
     0
   );
+  // subtotal > 1000 ? 0 : 200
+  const shippingCharges = 0;
+  // subtotal * 0.18;
+  const tax = 0;
 
-  const shippingCharges = subtotal > 1000 ? 0 : 200;
-
-  const tax = subtotal * 0.18;
-
-  const totalPrice = subtotal + tax + shippingCharges;
+  const totalPrice = subtotal;
 
   const address = `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.state}, ${shippingInfo.pinCode}, ${shippingInfo.country}`;
 
@@ -49,9 +51,17 @@ const ConfirmOrder = () => {
       tax,
       totalPrice,
     };
-
     dispatch(createOrder(data));
-
+    let getIds = [];
+    cartItems.map((item) => {
+      getIds.push(item.product);
+      return "";
+    });
+    console.log(getIds);
+    getIds.forEach((itemId) => {
+      console.log(itemId);
+      dispatch(removeItemsFromCart(itemId));
+    });
     navigate("/success");
   };
 

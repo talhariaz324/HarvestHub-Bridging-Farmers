@@ -35,7 +35,7 @@ const UpdateProduct = () => {
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
-  const [stock, setStock] = useState(0);
+  const [stock, setstock] = useState(0);
   const [images, setImages] = useState([]);
   const [oldImages, setOldImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
@@ -60,7 +60,7 @@ const UpdateProduct = () => {
       setDescription(product.description);
       setPrice(product.price);
       setCategory(product.category);
-      setStock(product.stock);
+      setstock(product.stock);
       setOldImages(product.images);
     }
     if (error) {
@@ -193,9 +193,9 @@ const UpdateProduct = () => {
               <StorageIcon />
               <input
                 type="number"
-                placeholder="Stock"
+                placeholder="stock"
                 required
-                onChange={(e) => setStock(e.target.value)}
+                onChange={(e) => setstock(e.target.value)}
                 value={stock}
               />
             </div>

@@ -40,15 +40,7 @@ const UpdateProduct = () => {
   const [oldImages, setOldImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
-  const categories = [
-    "Laptop",
-    "Footwear",
-    "Bottom",
-    "Tops",
-    "Attire",
-    "Camera",
-    "Mobile Phones",
-  ];
+  const categories = ["Machines", "Seeds"];
 
   const productId = id;
 

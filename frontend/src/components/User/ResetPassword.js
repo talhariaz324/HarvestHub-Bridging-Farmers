@@ -34,12 +34,12 @@ const ResetPassword = () => {
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      alert.show(error, { timeout: 2000 });
       dispatch(clearErrors());
     }
 
     if (success) {
-      alert.success("Password Updated Successfully");
+      alert.show("Password Updated Successfully", { timeout: 2000 });
       navigate("/login");
     }
   }, [dispatch, error, alert, navigate, success]);

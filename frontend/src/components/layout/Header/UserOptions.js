@@ -34,6 +34,13 @@ const UserOptions = ({ user }) => {
     },
     { icon: <ExitToAppIcon />, name: "Logout", func: logoutUser },
   ];
+  const options2 = [
+    { icon: <PersonIcon />, name: "Profile", func: account },
+    { icon: <ExitToAppIcon />, name: "Logout", func: logoutUser },
+  ];
+  const options3 = [
+    { icon: <ExitToAppIcon />, name: "Logout", func: logoutUser },
+  ];
 
   if (
     user.role === "admin" ||
@@ -41,6 +48,16 @@ const UserOptions = ({ user }) => {
     user.role === "farmer"
   ) {
     options.unshift({
+      icon: <DashboardIcon />,
+      name: "Dashboard",
+      func: dashboard,
+    });
+    options2.unshift({
+      icon: <DashboardIcon />,
+      name: "Dashboard",
+      func: dashboard,
+    });
+    options3.unshift({
       icon: <DashboardIcon />,
       name: "Dashboard",
       func: dashboard,
@@ -62,7 +79,8 @@ const UserOptions = ({ user }) => {
   }
   function logoutUser() {
     dispatch(logout());
-    alert.success("Logout Successfully");
+    alert.show("Logout Successfully", { timeout: 2000 });
+    navigate("/login");
   }
 
   return (
@@ -84,15 +102,35 @@ const UserOptions = ({ user }) => {
           />
         }
       >
-        {options.map((item) => (
-          <SpeedDialAction
-            key={item.name}
-            icon={item.icon}
-            tooltipTitle={item.name}
-            onClick={item.func}
-            tooltipOpen={window.innerWidth <= 600 ? true : false}
-          />
-        ))}
+        {user.role === "admin"
+          ? options3.map((item) => (
+              <SpeedDialAction
+                key={item.name}
+                icon={item.icon}
+                tooltipTitle={item.name}
+                onClick={item.func}
+                tooltipOpen={window.innerWidth <= 600 ? true : false}
+              />
+            ))
+          : user.role === "vendor"
+          ? options2.map((item) => (
+              <SpeedDialAction
+                key={item.name}
+                icon={item.icon}
+                tooltipTitle={item.name}
+                onClick={item.func}
+                tooltipOpen={window.innerWidth <= 600 ? true : false}
+              />
+            ))
+          : options.map((item) => (
+              <SpeedDialAction
+                key={item.name}
+                icon={item.icon}
+                tooltipTitle={item.name}
+                onClick={item.func}
+                tooltipOpen={window.innerWidth <= 600 ? true : false}
+              />
+            ))}
       </SpeedDial>
     </Fragment>
   );

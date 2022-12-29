@@ -58,12 +58,12 @@ const UpdateProfile = () => {
     }
 
     if (error) {
-      alert.error(error);
+      alert.show(error, { timeout: 2000 });
       dispatch(clearErrors());
     }
 
     if (isUpdated) {
-      alert.success("Profile Updated Successfully");
+      alert.show("Profile Updated Successfully", { timeout: 2000 });
       dispatch(loadUser());
 
       navigate("/account");

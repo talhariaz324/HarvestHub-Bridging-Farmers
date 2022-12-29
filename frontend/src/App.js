@@ -1,5 +1,6 @@
 import "./App.css";
 import Header from "./components/layout/Header/Header.js";
+import AdminHeader from "./components/layout/Header/AdminHeader.js";
 import Home from "./components/Home/Home.js";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import WebFont from "webfontloader";
@@ -42,6 +43,7 @@ import ProductReviews from "./components/Admin/ProductReviews";
 import Contact from "./components/layout/Contact/Contact.js";
 import About from "./components/layout/About/About.js";
 import NotFound from "./components/layout/Not Found/NotFound.js";
+
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
   // const [stripeApiKey, setStripeApiKey] = useState("");
@@ -66,23 +68,77 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-        <Header />
+        {user && (user.role === "vendor" || user.role === "admin") ? (
+          <AdminHeader user={user} />
+        ) : (
+          <Header />
+        )}
         {isAuthenticated && <UserOptions user={user} />}
         <Fragment>
           {/* <Elements stripe={loadStripe(stripeApiKey)}> */}
           <Routes>
-            <Route exact path="/" element={<Home />} />
+            <Route
+              exact
+              path="/"
+              element={
+                !isAuthenticated ? (
+                  <Home />
+                ) : isAuthenticated &&
+                  user &&
+                  (user.role === "farmer" || user.role === "buyer") ? (
+                  <Home user={user} />
+                ) : (
+                  <Dashboard user={user} />
+                )
+              }
+            />
             <Route
               exact
               path="/product/:id"
               element={<ProductDetails user={user} />}
             />
-            <Route exact path="/products" element={<Products />} />
-            <Route path="/products/:keyword" element={<Products />} />
-            <Route exact path="/search" element={<Search />} />
+            <Route exact path="/products" element={<Products user={user} />} />
+            <Route
+              path="/products/:keyword"
+              element={<Products user={user} />}
+            />
+            <Route
+              exact
+              path="/search"
+              element={
+                !user ||
+                (user && (user.role === "farmer" || user.role === "buyer")) ? (
+                  <Search />
+                ) : (
+                  <NotFound />
+                )
+              }
+            />
             <Route exact path="/login" element={<LoginSignUp />} />
-            <Route exact path="/contact" element={<Contact />} />
-            <Route exact path="/about" element={<About />} />
+            <Route
+              exact
+              path="/contact"
+              element={
+                !user ||
+                (user && (user.role === "farmer" || user.role === "buyer")) ? (
+                  <Contact />
+                ) : (
+                  <NotFound />
+                )
+              }
+            />
+            <Route
+              exact
+              path="/about"
+              element={
+                !user ||
+                (user && (user.role === "farmer" || user.role === "buyer")) ? (
+                  <About />
+                ) : (
+                  <NotFound />
+                )
+              }
+            />
             <Route path="*" element={<NotFound />} />
             <Route exact path="/password/forgot" element={<ForgotPassword />} />
             <Route
@@ -90,7 +146,24 @@ function App() {
               path="/password/reset/:token"
               element={<ResetPassword />}
             />
-            <Route exact path="/cart" element={<Cart user={user} />} />
+            <Route
+              exact
+              path="/cart"
+              element={
+                !user ||
+                (user && (user.role === "farmer" || user.role === "buyer")) ? (
+                  <Cart user={user} />
+                ) : (
+                  <NotFound />
+                )
+              }
+            />
+            {/* 
+
+Change permissons on each route.
+And make sure unAuth user == login
+and farmer and buyer == home
+and admin and vendor == adminDashboard */}
 
             {/* Protected Routes */}
 
@@ -116,7 +189,11 @@ function App() {
                 path="/admin/products"
                 element={<ProductList user={user} />}
               />
-              <Route exact path="/vendor/product" element={<NewProduct />} />
+              <Route
+                exact
+                path="/vendor/product"
+                element={<NewProduct user={user} />}
+              />
               <Route
                 exact
                 path="/vendor/product/:id"

@@ -40,7 +40,7 @@ const ProcessOrder = ({ user }) => {
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      alert.show(error, { timeout: 2000 });
       dispatch(clearErrors());
     }
     if (updateError) {
@@ -48,7 +48,7 @@ const ProcessOrder = ({ user }) => {
       dispatch(clearErrors());
     }
     if (isUpdated) {
-      alert.success("Order Updated Successfully");
+      alert.show("Order Updated Successfully", { timeout: 2000 });
       dispatch({ type: UPDATE_ORDER_RESET });
     }
 
@@ -94,41 +94,43 @@ const ProcessOrder = ({ user }) => {
 
   filterOrders &&
     filterOrders.forEach((pro) => {
-      orderDetails.map((orderItem) =>
-        orderItem.orderItems.forEach((item) => {
-          if (item.product === pro._id) {
-            if (orderItem.orderItems.length > 1) {
-              // console.log("greater than 1");
-              let newOrderItem = { ...orderItem };
+      orderDetails.map(
+        (orderItem) =>
+          orderItem.orderItems &&
+          orderItem.orderItems.forEach((item) => {
+            if (item.product === pro._id) {
+              if (orderItem.orderItems.length > 1) {
+                // console.log("greater than 1");
+                let newOrderItem = { ...orderItem };
 
-              moreThan2 = newOrderItem.orderItems.filter(
-                (item) => item.product === pro._id
-              );
-              let newNewOrderItem = { ...orderItem };
-              noMatch = newNewOrderItem.orderItems.filter(
-                (item) => item.product !== pro._id
-              );
-              newOrderItem.orderItems = moreThan2;
-              noMatch.map(
-                (noMatchs) =>
-                  (findPrice =
-                    newOrderItem.totalPrice - noMatchs.price * noMatch.length)
-              );
+                moreThan2 = newOrderItem.orderItems.filter(
+                  (item) => item.product === pro._id
+                );
+                let newNewOrderItem = { ...orderItem };
+                noMatch = newNewOrderItem.orderItems.filter(
+                  (item) => item.product !== pro._id
+                );
+                newOrderItem.orderItems = moreThan2;
+                noMatch.map(
+                  (noMatchs) =>
+                    (findPrice =
+                      newOrderItem.totalPrice - noMatchs.price * noMatch.length)
+                );
 
-              storeFindings.push(newOrderItem);
+                storeFindings.push(newOrderItem);
+                uniqueFindings = storeFindings.filter(
+                  (checkItem, index, self) =>
+                    self.findIndex((t) => t._id === checkItem._id) === index
+                );
+              }
+              storeFindings.push(orderItem);
               uniqueFindings = storeFindings.filter(
                 (checkItem, index, self) =>
                   self.findIndex((t) => t._id === checkItem._id) === index
               );
             }
-            storeFindings.push(orderItem);
-            uniqueFindings = storeFindings.filter(
-              (checkItem, index, self) =>
-                self.findIndex((t) => t._id === checkItem._id) === index
-            );
-          }
-          return "";
-        })
+            return "";
+          })
       );
     });
   uniqueFindings.map((orderItem) =>
@@ -237,8 +239,8 @@ const ProcessOrder = ({ user }) => {
                             {item.name}
                           </Link>{" "}
                           <span>
-                            {item.quantity} X ₹{item.price} ={" "}
-                            <b>₹{item.price * item.quantity}</b>
+                            {item.quantity} X ${item.price} ={" "}
+                            <b>${item.price * item.quantity}</b>
                           </span>
                         </div>
                       ))
@@ -249,8 +251,8 @@ const ProcessOrder = ({ user }) => {
                           {value.name}
                         </Link>{" "}
                         <span>
-                          {value.quantity} X ₹{value.price} ={" "}
-                          <b>₹{value.price * value.quantity}</b>
+                          {value.quantity} X ${value.price} ={" "}
+                          <b>${value.price * value.quantity}</b>
                         </span>
                       </div>
                     )}

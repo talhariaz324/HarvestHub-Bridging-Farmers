@@ -34,7 +34,7 @@ const ProductList = ({ user }) => {
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      alert.show(error, { timeout: 2000 });
       dispatch(clearErrors());
     }
 
@@ -44,7 +44,7 @@ const ProductList = ({ user }) => {
     }
 
     if (isDeleted) {
-      alert.success("Product Deleted Successfully");
+      alert.show("Product Deleted Successfully", { timeout: 2000 });
       navigate("/admin/dashboard");
       dispatch({ type: DELETE_PRODUCT_RESET });
     }

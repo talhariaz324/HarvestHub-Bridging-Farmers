@@ -16,6 +16,7 @@ import Loader from "../layout/Loader/Loader";
 import { Rating } from "@material-ui/lab";
 import ReviewCard from "./ReviewCard";
 import { addItemsToCart } from "../../actions/cartAction";
+import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogActions,
@@ -27,6 +28,7 @@ import { NEW_REVIEW_RESET } from "../../constants/productConstants";
 export default function ProductDetails({ user }) {
   const alert = useAlert();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { product, loading, error } = useSelector(
     (state) => state.productDetails
   );
@@ -53,8 +55,12 @@ export default function ProductDetails({ user }) {
     setQuantity(qty);
   };
   const addToCartHandler = () => {
-    dispatch(addItemsToCart(id, user._id, quantity));
-    alert.success("Item Added To Cart");
+    if (!user) {
+      navigate("/login");
+    } else {
+      dispatch(addItemsToCart(id, user._id, quantity));
+      alert.show("Item Added To Cart", { timeout: 2000 });
+    }
   };
   const submitReviewToggle = () => {
     open ? setOpen(false) : setOpen(true);
@@ -73,7 +79,7 @@ export default function ProductDetails({ user }) {
   };
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      alert.show(error, { timeout: 2000 });
       dispatch(clearErrors());
     }
     if (reviewError) {
@@ -82,7 +88,7 @@ export default function ProductDetails({ user }) {
     }
 
     if (success) {
-      alert.success("Review Submitted Successfully");
+      alert.show("Review Submitted Successfully", { timeout: 2000 });
       dispatch({ type: NEW_REVIEW_RESET });
     }
     dispatch(getProductDetails(id));
@@ -130,7 +136,7 @@ export default function ProductDetails({ user }) {
               </div>
 
               <div className="detailsBlock-3">
-                <h1>{`RS:${product.price}`}</h1>
+                <h1>{`$:${product.price}`}</h1>
                 <div className="detailsBlock-3-1">
                   <div className="detailsBlock-3-1-1">
                     <button onClick={decreaseQuantity}>-</button>
@@ -149,7 +155,7 @@ export default function ProductDetails({ user }) {
                   <b
                     className={product.stock < 1 ? "redColor" : "#097969Color"}
                   >
-                    {product.stock < 1 ? "OutOfstock" : "Instock"}
+                    {product.stock < 1 ? "OutOfStock" : "InStock"}
                   </b>
                 </p>
               </div>

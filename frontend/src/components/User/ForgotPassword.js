@@ -28,12 +28,12 @@ const ForgotPassword = () => {
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      alert.show(error, { timeout: 2000 });
       dispatch(clearErrors());
     }
 
     if (message) {
-      alert.success(message);
+      alert.show(message, { timeout: 2000 });
     }
   }, [dispatch, error, alert, message]);
 

@@ -56,7 +56,7 @@ const OrderList = ({ user }) => {
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      alert.show(error, { timeout: 2000 });
       dispatch(clearErrors());
     }
 
@@ -66,7 +66,7 @@ const OrderList = ({ user }) => {
     }
 
     if (isDeleted) {
-      alert.success("Order Deleted Successfully");
+      alert.show("Order Deleted Successfully", { timeout: 2000 });
       navigate("/admin/orders");
       dispatch({ type: DELETE_ORDER_RESET });
     }
@@ -149,41 +149,44 @@ const OrderList = ({ user }) => {
     : // trying to filter so that admin walaa add na ho
       filterOrders &&
       filterOrders.forEach((pro) => {
-        orderDetails.map((orderItem) =>
-          orderItem.orderItems.forEach((item) => {
-            if (item.product === pro._id) {
-              if (orderItem.orderItems.length > 1) {
-                // console.log("greater than 1");
-                let newOrderItem = { ...orderItem };
+        orderDetails.map(
+          (orderItem) =>
+            orderItem.orderItems &&
+            orderItem.orderItems.forEach((item) => {
+              if (item.product === pro._id) {
+                if (orderItem.orderItems.length > 1) {
+                  // console.log("greater than 1");
+                  let newOrderItem = { ...orderItem };
 
-                moreThan2 = newOrderItem.orderItems.filter(
-                  (item) => item.product === pro._id
-                );
-                let newNewOrderItem = { ...orderItem };
-                noMatch = newNewOrderItem.orderItems.filter(
-                  (item) => item.product !== pro._id
-                );
-                newOrderItem.orderItems = moreThan2;
-                noMatch.map(
-                  (noMatchs) =>
-                    (newOrderItem.totalPrice =
-                      newOrderItem.totalPrice - noMatchs.price * noMatch.length)
-                );
+                  moreThan2 = newOrderItem.orderItems.filter(
+                    (item) => item.product === pro._id
+                  );
+                  let newNewOrderItem = { ...orderItem };
+                  noMatch = newNewOrderItem.orderItems.filter(
+                    (item) => item.product !== pro._id
+                  );
+                  newOrderItem.orderItems = moreThan2;
+                  noMatch.map(
+                    (noMatchs) =>
+                      (newOrderItem.totalPrice =
+                        newOrderItem.totalPrice -
+                        noMatchs.price * noMatch.length)
+                  );
 
-                storeFindings.push(newOrderItem);
+                  storeFindings.push(newOrderItem);
+                  uniqueFindings = storeFindings.filter(
+                    (checkItem, index, self) =>
+                      self.findIndex((t) => t._id === checkItem._id) === index
+                  );
+                }
+                storeFindings.push(orderItem);
                 uniqueFindings = storeFindings.filter(
                   (checkItem, index, self) =>
                     self.findIndex((t) => t._id === checkItem._id) === index
                 );
               }
-              storeFindings.push(orderItem);
-              uniqueFindings = storeFindings.filter(
-                (checkItem, index, self) =>
-                  self.findIndex((t) => t._id === checkItem._id) === index
-              );
-            }
-            return "";
-          })
+              return "";
+            })
         );
       });
   console.log(uniqueFindings);

@@ -10,12 +10,13 @@ import Slider from "@material-ui/core/Slider";
 import { useAlert } from "react-alert";
 import Typography from "@material-ui/core/Typography";
 import MetaData from "../layout/MetaData";
-
+import { getAllUsers } from "../../actions/userAction.js";
+import { useNavigate } from "react-router-dom";
 const categories = ["Machines", "Seeds", "Crops"];
 
-const Products = () => {
+const Products = ({ user }) => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const alert = useAlert();
   const [currentPage, setCurrentPage] = useState(1);
   const [price, setPrice] = useState([0, 25000]);
@@ -31,6 +32,7 @@ const Products = () => {
     resultsPerPage,
     // filteredProductsCount,
   } = useSelector((state) => state.products);
+  const { users } = useSelector((state) => state.allUsers);
   // console.log(resultsPerPage);
   const setCurrentPageNo = (e) => {
     setCurrentPage(e);
@@ -44,12 +46,30 @@ const Products = () => {
   const { keyword } = useParams(); // Destruct it must
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      alert.show(error, { timeout: 2000 });
       dispatch(clearErrors());
     }
 
     dispatch(getProduct(keyword, currentPage, price, category, ratings));
+    dispatch(getAllUsers());
   }, [dispatch, keyword, currentPage, price, category, ratings, alert, error]);
+
+  let filteredFarmerProducts = [];
+  let filteredBuyerProducts = []; // Also for unauth user.
+  // let productUser;
+  users &&
+    users.map((myUser) => {
+      products &&
+        products.map((product) => {
+          if (myUser._id === product.user) {
+            myUser.role === "vendor"
+              ? filteredFarmerProducts.push(product)
+              : filteredBuyerProducts.push(product);
+          }
+          return "";
+        });
+      return "";
+    });
 
   return (
     <Fragment>
@@ -61,10 +81,17 @@ const Products = () => {
           <h2 className="productsHeading">Products</h2>
 
           <div className="products">
-            {products &&
-              products.map((product) => (
-                <ProductCard key={product._id} product={product} />
-              ))}
+            {user && (user.role === "admin" || user.role === "vendor")
+              ? navigate("/admin/dashboard")
+              : user && user.role === "farmer"
+              ? filteredFarmerProducts &&
+                filteredFarmerProducts.map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))
+              : filteredBuyerProducts &&
+                filteredBuyerProducts.map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
           </div>
 
           <div className="filterBox">

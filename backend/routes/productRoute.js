@@ -15,7 +15,7 @@ const { isAuthenticatedUser, authorizedRoles } = require("../middleware/auth");
 const router = express.Router();
 // Create Product --Admin
 router
-  .route("/vendor/product/new")
+  .route("/admin/product/new")
   .post(
     isAuthenticatedUser,
     authorizedRoles("vendor", "admin", "farmer"),
@@ -33,7 +33,7 @@ router
   );
 // Update/Delete Product --Admin
 router
-  .route("/vendor/product/:id")
+  .route("/admin/product/:id")
   .put(
     isAuthenticatedUser,
     authorizedRoles("vendor", "admin", "farmer"),

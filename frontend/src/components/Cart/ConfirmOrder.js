@@ -58,10 +58,11 @@ const ConfirmOrder = () => {
       return "";
     });
     console.log(getIds);
-    getIds.forEach((itemId) => {
-      console.log(itemId);
-      dispatch(removeItemsFromCart(itemId));
-    });
+    getIds &&
+      getIds.forEach((itemId) => {
+        console.log(itemId);
+        dispatch(removeItemsFromCart(itemId));
+      });
     navigate("/success");
   };
 

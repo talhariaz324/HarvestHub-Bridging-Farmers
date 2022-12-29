@@ -13,6 +13,11 @@ import MetaData from "../layout/MetaData";
 
 const Dashboard = ({ user }) => {
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAdminProduct());
+    dispatch(getAllOrders());
+    dispatch(getAllUsers());
+  }, [dispatch]);
 
   const { products } = useSelector((state) => state.products);
 
@@ -20,7 +25,7 @@ const Dashboard = ({ user }) => {
 
   const { users } = useSelector((state) => state.allUsers);
   // const { loading, error, user } = useSelector((state) => state.userDetails);
-  let outOfstock = 0;
+  let outOfStock = 0;
   let storeFindings = [];
   let uniqueFindings = [];
   let moreThan2 = [];
@@ -33,60 +38,71 @@ const Dashboard = ({ user }) => {
   orders &&
     orders.filter((order) =>
       order.orderItems.map(
-        (product) => orderedProductsIds.push(product.product),
+        (product) =>
+          orderedProductsIds && orderedProductsIds.push(product.product),
         orderDetails.push(order)
       )
     );
   // console.log(orderDetails);
-  const filterOrdererdProducts = orderedProductsIds.map((id) =>
-    products.filter((product) => product._id === id)
-  );
-  filterOrdererdProducts.map((products) =>
-    products.map((product) => {
-      if (product.user === user._id) {
-        filterOrders.push(product);
-      }
-      return "";
-    })
-  );
-  filterOrders &&
-    filterOrders.forEach((pro) => {
-      orderDetails.map((orderItem) =>
-        orderItem.orderItems.forEach((item) => {
-          if (item.product === pro._id) {
-            if (orderItem.orderItems.length > 1) {
-              // console.log("greater than 1");
-              let newOrderItem = { ...orderItem };
-
-              moreThan2 = newOrderItem.orderItems.filter(
-                (item) => item.product === pro._id
-              );
-              let newNewOrderItem = { ...orderItem };
-              noMatch = newNewOrderItem.orderItems.filter(
-                (item) => item.product !== pro._id
-              );
-              newOrderItem.orderItems = moreThan2;
-              noMatch.map(
-                (noMatchs) =>
-                  (newOrderItem.totalPrice =
-                    newOrderItem.totalPrice - noMatchs.price * noMatch.length)
-              );
-
-              storeFindings.push(newOrderItem);
-              uniqueFindings = storeFindings.filter(
-                (checkItem, index, self) =>
-                  self.findIndex((t) => t._id === checkItem._id) === index
-              );
-            }
-            storeFindings.push(orderItem);
-            uniqueFindings = storeFindings.filter(
-              (checkItem, index, self) =>
-                self.findIndex((t) => t._id === checkItem._id) === index
-            );
+  const filterOrdererdProducts =
+    orderedProductsIds &&
+    orderedProductsIds.map(
+      (id) => products && products.filter((product) => product._id === id)
+    );
+  filterOrdererdProducts &&
+    filterOrdererdProducts.map(
+      (products) =>
+        products &&
+        products.map((product) => {
+          if (product.user === user._id) {
+            filterOrders.push(product);
           }
           return "";
         })
-      );
+    );
+  filterOrders &&
+    filterOrders.forEach((pro) => {
+      orderDetails &&
+        orderDetails.map(
+          (orderItem) =>
+            orderItem.orderItems &&
+            orderItem.orderItems &&
+            orderItem.orderItems.forEach((item) => {
+              if (item.product === pro._id) {
+                if (orderItem.orderItems.length > 1) {
+                  // console.log("greater than 1");
+                  let newOrderItem = { ...orderItem };
+
+                  moreThan2 = newOrderItem.orderItems.filter(
+                    (item) => item.product === pro._id
+                  );
+                  let newNewOrderItem = { ...orderItem };
+                  noMatch = newNewOrderItem.orderItems.filter(
+                    (item) => item.product !== pro._id
+                  );
+                  newOrderItem.orderItems = moreThan2;
+                  noMatch.map(
+                    (noMatchs) =>
+                      (newOrderItem.totalPrice =
+                        newOrderItem.totalPrice -
+                        noMatchs.price * noMatch.length)
+                  );
+
+                  storeFindings.push(newOrderItem);
+                  uniqueFindings = storeFindings.filter(
+                    (checkItem, index, self) =>
+                      self.findIndex((t) => t._id === checkItem._id) === index
+                  );
+                }
+                storeFindings.push(orderItem);
+                uniqueFindings = storeFindings.filter(
+                  (checkItem, index, self) =>
+                    self.findIndex((t) => t._id === checkItem._id) === index
+                );
+              }
+              return "";
+            })
+        );
     });
   // console.log(uniqueFindings);
 
@@ -94,23 +110,17 @@ const Dashboard = ({ user }) => {
     products &&
       products.forEach((item) => {
         if (item.stock === 0) {
-          outOfstock += 1;
+          outOfStock += 1;
         }
       });
   } else {
     filterProducts &&
       filterProducts.forEach((item) => {
         if (item.stock === 0) {
-          outOfstock += 1;
+          outOfStock += 1;
         }
       });
   }
-
-  useEffect(() => {
-    dispatch(getAdminProduct());
-    dispatch(getAllOrders());
-    dispatch(getAllUsers());
-  }, [dispatch]);
 
   let totalAmount = 0;
   // console.log(orders);
@@ -139,16 +149,16 @@ const Dashboard = ({ user }) => {
   };
 
   const doughnutState = {
-    labels: ["Out of stock", "Instock"],
+    labels: ["Out of Stock", "InStock"],
     datasets: [
       {
         backgroundColor: ["#00A6B4", "#6800B4"],
         hoverBackgroundColor: ["#4B5000", "#35014F"],
         data: [
-          (outOfstock,
+          (outOfStock,
           user.role === "admin"
-            ? products.length - outOfstock
-            : filterProducts.length - outOfstock),
+            ? products && products.length - outOfStock
+            : filterProducts && filterProducts.length - outOfStock),
         ],
         // data: [2, 10],
       },

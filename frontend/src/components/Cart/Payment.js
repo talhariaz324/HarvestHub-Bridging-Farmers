@@ -53,7 +53,7 @@ const Payment = () => {
 
     try {
       const config = {
-        heade${
+        headers: {
           "Content-Type": "application/json",
         },
       };
@@ -110,7 +110,7 @@ const Payment = () => {
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      alert.show(error, { timeout: 2000 });
       dispatch(clearErrors());
     }
   }, [dispatch, error, alert]);

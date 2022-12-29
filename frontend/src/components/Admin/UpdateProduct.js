@@ -56,7 +56,7 @@ const UpdateProduct = () => {
       setOldImages(product.images);
     }
     if (error) {
-      alert.error(error);
+      alert.show(error, { timeout: 2000 });
       dispatch(clearErrors());
     }
 
@@ -66,7 +66,7 @@ const UpdateProduct = () => {
     }
 
     if (isUpdated) {
-      alert.success("Product Updated Successfully");
+      alert.show("Product Updated Successfully", { timeout: 2000 });
       navigate("/admin/products");
       dispatch({ type: UPDATE_PRODUCT_RESET });
     }
@@ -93,9 +93,10 @@ const UpdateProduct = () => {
     myForm.set("category", category);
     myForm.set("stock", stock);
 
-    images.forEach((image) => {
-      myForm.append("images", image);
-    });
+    images &&
+      images.forEach((image) => {
+        myForm.append("images", image);
+      });
     dispatch(updateProduct(productId, myForm));
   };
 
@@ -106,18 +107,19 @@ const UpdateProduct = () => {
     setImagesPreview([]);
     setOldImages([]);
 
-    files.forEach((file) => {
-      const reader = new FileReader();
+    files &&
+      files.forEach((file) => {
+        const reader = new FileReader();
 
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setImagesPreview((old) => [...old, reader.result]);
-          setImages((old) => [...old, reader.result]);
-        }
-      };
+        reader.onload = () => {
+          if (reader.readyState === 2) {
+            setImagesPreview((old) => [...old, reader.result]);
+            setImages((old) => [...old, reader.result]);
+          }
+        };
 
-      reader.readAsDataURL(file);
-    });
+        reader.readAsDataURL(file);
+      });
   };
 
   return (

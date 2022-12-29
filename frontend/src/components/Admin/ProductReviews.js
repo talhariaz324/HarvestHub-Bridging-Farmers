@@ -45,7 +45,7 @@ const ProductReviews = () => {
       dispatch(getAllReviews(productId));
     }
     if (error) {
-      alert.error(error);
+      alert.show(error, { timeout: 2000 });
       dispatch(clearErrors());
     }
 
@@ -55,7 +55,7 @@ const ProductReviews = () => {
     }
 
     if (isDeleted) {
-      alert.success("Review Deleted Successfully");
+      alert.show("Review Deleted Successfully", { timeout: 2000 });
       navigate("/admin/reviews");
       dispatch({ type: DELETE_REVIEW_RESET });
     }

@@ -31,7 +31,7 @@ const UsersList = () => {
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      alert.show(error, { timeout: 2000 });
       dispatch(clearErrors());
     }
 
@@ -41,7 +41,7 @@ const UsersList = () => {
     }
 
     if (isDeleted) {
-      alert.success(message);
+      alert.show(message, { timeout: 2000 });
       navigate("/admin/users");
       dispatch({ type: DELETE_USER_RESET });
     }

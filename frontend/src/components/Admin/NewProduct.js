@@ -14,7 +14,7 @@ import SideBar from "./Sidebar";
 import { NEW_PRODUCT_RESET } from "../../constants/productConstants";
 import { useNavigate } from "react-router-dom";
 
-const NewProduct = () => {
+const NewProduct = ({ user }) => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const navigate = useNavigate();
@@ -31,16 +31,16 @@ const NewProduct = () => {
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
-  const categories = ["Machines", "Seeds", "Crops"];
+  const categories = user.role === "vendor" ? ["Machines", "Seeds"] : ["Crops"];
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      alert.show(error, { timeout: 2000 });
       dispatch(clearErrors());
     }
 
     if (success) {
-      alert.success("Product Created Successfully");
+      alert.show("Product Created Successfully", { timeout: 2000 });
       navigate("/admin/dashboard");
       dispatch({ type: NEW_PRODUCT_RESET });
     }
@@ -59,9 +59,10 @@ const NewProduct = () => {
     myForm.set("onRent", onRent);
     myForm.set("onRentPrice", onRentPrice);
 
-    images.forEach((image) => {
-      myForm.append("images", image);
-    });
+    images &&
+      images.forEach((image) => {
+        myForm.append("images", image);
+      });
     dispatch(createProduct(myForm));
   };
 
@@ -71,18 +72,19 @@ const NewProduct = () => {
     setImages([]);
     setImagesPreview([]);
 
-    files.forEach((file) => {
-      const reader = new FileReader();
+    files &&
+      files.forEach((file) => {
+        const reader = new FileReader();
 
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setImagesPreview((old) => [...old, reader.result]);
-          setImages((old) => [...old, reader.result]);
-        }
-      };
+        reader.onload = () => {
+          if (reader.readyState === 2) {
+            setImagesPreview((old) => [...old, reader.result]);
+            setImages((old) => [...old, reader.result]);
+          }
+        };
 
-      reader.readAsDataURL(file);
-    });
+        reader.readAsDataURL(file);
+      });
   };
 
   return (

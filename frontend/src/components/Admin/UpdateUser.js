@@ -45,7 +45,7 @@ const UpdateUser = () => {
       setRole(user.role);
     }
     if (error) {
-      alert.error(error);
+      alert.show(error, { timeout: 2000 });
       dispatch(clearErrors());
     }
 
@@ -55,7 +55,7 @@ const UpdateUser = () => {
     }
 
     if (isUpdated) {
-      alert.success("User Updated Successfully");
+      alert.show("User Updated Successfully", { timeout: 2000 });
       navigate("/admin/users");
       dispatch({ type: UPDATE_USER_RESET });
     }

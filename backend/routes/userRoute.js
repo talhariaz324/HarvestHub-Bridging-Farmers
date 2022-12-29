@@ -24,9 +24,7 @@ router.route("/logout").get(logoutUser);
 router.route("/me").get(isAuthenticatedUser, getUserDetail); // Of course,, user is viewing his profile mean he is login
 router.route("/password/update").put(isAuthenticatedUser, updatePassword); // Of course,, user is viewing his profile mean he is login
 router.route("/me/update").put(isAuthenticatedUser, updateUserProfile); // Of course,, user is viewing his profile mean he is login
-router
-  .route("/admin/users")
-  .get(isAuthenticatedUser, authorizedRoles("admin"), getAllUsers); // Of course,, user is viewing his profile mean he is login
+router.route("/admin/users").get(getAllUsers); // Of course,, user is viewing his profile mean he is login
 router
   .route("/admin/user/:id")
   .get(isAuthenticatedUser, authorizedRoles("admin"), getSingleUser)

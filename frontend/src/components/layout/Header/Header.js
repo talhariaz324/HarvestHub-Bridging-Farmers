@@ -1,50 +1,99 @@
-import React from "react";
-import { ReactNavbar } from "overlay-navbar";
-import logo from "../../../images/logo.png";
-import { FaSearch, FaUserCircle } from "react-icons/fa";
-import { FiShoppingBag } from "react-icons/fi";
+import { React, useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  Container,
+  Col,
+  Row,
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  NavbarText,
+} from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Logo from "../../../images/logo1.png";
+import {
+  faSearch,
+  faShoppingCart,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
+import "./Header.css";
+const NavbarComponent = (props) => {
+  const [isOpen, setIsOpen] = useState(false);
 
-const Header = () => {
+  const toggle = () => setIsOpen(!isOpen);
+
   return (
-    <ReactNavbar
-      burgerColorHover="#097969"
-      logo={logo}
-      logoWidth="20vmax"
-      navColor1="white"
-      logoHoverSize="10px"
-      logoHoverColor="#097969"
-      link1Text="Home"
-      link2Text="Products"
-      link3Text="Contact"
-      link4Text="About"
-      link1Url="/"
-      link2Url="/products"
-      link3Url="/contact"
-      link4Url="/about"
-      link1Size="1.3vmax"
-      link1Color="rgba(35, 35, 35,0.8)"
-      nav1justifyContent="flex-end"
-      nav2justifyContent="flex-end"
-      nav3justifyContent="flex-start"
-      nav4justifyContent="flex-start"
-      link1ColorHover="#097969"
-      link1Margin="1vmax"
-      profileIcon={true}
-      ProfileIconElement={FaUserCircle}
-      profileIconUrl="/login"
-      profileIconColor="rgba(35, 35, 35,0.8)"
-      profileIconColorHover="#097969"
-      searchIcon={true}
-      SearchIconElement={FaSearch}
-      searchIconColor="rgba(35, 35, 35,0.8)"
-      searchIconColorHover="#097969"
-      cartIcon={true}
-      CartIconElement={FiShoppingBag}
-      cartIconColor="rgba(35, 35, 35,0.8)"
-      cartIconColorHover="#097969"
-      cartIconMargin="1vmax"
-    />
+    <div className="container-fluid ">
+      <Navbar className="navbar light" light expand="md">
+        <NavbarBrand>
+          <Link className="img" to="/">
+            <img
+              width="150px"
+              height="auto"
+              className="img-responsive"
+              src={Logo}
+              alt="logo"
+            />
+          </Link>
+        </NavbarBrand>
+        <NavbarToggler onClick={toggle} />
+        <Collapse isOpen={isOpen} navbar>
+          <Nav className="mx-auto" navbar>
+            <NavItem className="navItems">
+              <NavLink className="active ms-3 home">
+                <Link className=" text-light home" to="/">
+                  Home
+                </Link>
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink className="ms-3" href="/products">
+                Products
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink className="ms-3" href="/about">
+                About
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink className="ms-3" href="/contact">
+                Services
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink className="ms-3" href="/contact">
+                Contact
+              </NavLink>
+            </NavItem>
+          </Nav>
+          <NavbarText className="icons">
+            <Link to="/search">
+              <FontAwesomeIcon color="#097969" id="search" icon={faSearch} />
+            </Link>
+            <Link to="/cart">
+              <FontAwesomeIcon
+                color="#097969"
+                id="cart"
+                icon={faShoppingCart}
+              />
+            </Link>
+            <Link to="/login">
+              <FontAwesomeIcon color="#097969" id="user" icon={faUser} />
+            </Link>
+          </NavbarText>
+        </Collapse>
+      </Navbar>
+    </div>
   );
 };
 
-export default Header;
+export default NavbarComponent;

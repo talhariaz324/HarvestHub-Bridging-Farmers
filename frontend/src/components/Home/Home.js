@@ -10,10 +10,11 @@ import { useSelector, useDispatch } from "react-redux";
 import Loader from "../layout/Loader/Loader";
 import { useAlert } from "react-alert";
 import { useNavigate } from "react-router-dom";
-// import About from "../layout/components/About";
-// import Contact from "../layout/components/About";
-// import Features from "../layout/components/About";
-// import Services from "../layout/components/About";
+import CarouselComponent from "../layout/Carousel/Carousel";
+import About from "../layout/About/About";
+import Contact from "../layout/Contact/Contact";
+import Features from "../layout/Features/Features";
+import Services from "../layout/Services/Services";
 const Home = ({ user }) => {
   const alert = useAlert();
   const navigate = useNavigate();
@@ -55,16 +56,7 @@ const Home = ({ user }) => {
         <Fragment>
           <MetaData title="Kisan Sahulat" />
 
-          <div className="banner">
-            <p>Welcome to Kisan Sahulat</p>
-            <h1>FIND AMAZING PRODUCTS BELOW</h1>
-
-            <a href="#container">
-              <button>
-                Scroll <CgMouse />
-              </button>
-            </a>
-          </div>
+          <CarouselComponent />
 
           <h2 className="homeHeading">Featured Products</h2>
 
@@ -81,10 +73,10 @@ const Home = ({ user }) => {
                   <Product key={product._id} product={product} />
                 ))}
           </div>
-          {/* <About />
+          <About />
           <Services />
           <Features />
-          <Contact /> */}
+          <Contact />
         </Fragment>
       )}
     </Fragment>

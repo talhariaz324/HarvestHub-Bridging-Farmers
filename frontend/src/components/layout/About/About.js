@@ -1,50 +1,43 @@
 import React from "react";
-import "./About.css";
-import { Button, Typography, Avatar } from "@material-ui/core";
-import LinkedInIcon from "@material-ui/icons/LinkedIn";
-import WhatsAppIcon from "@material-ui/icons/WhatsApp";
+import { Container, Row, Col } from "reactstrap";
+import "../About/About.css";
 const About = () => {
-  const visitInstagram = () => {
-    window.location = "https://www.instagram.com/talhariaz324/";
-  };
   return (
-    <div className="aboutSection">
-      <div></div>
-      <div className="aboutSectionGradient"></div>
-      <div className="aboutSectionContainer">
-        <Typography component="h1">About Us</Typography>
-
-        <div>
-          <div>
-            <Avatar
-              style={{ width: "10vmax", height: "10vmax", margin: "2vmax 0" }}
-              src="https://res.cloudinary.com/dwkg4auqj/image/upload/v1666299343/avatars/img-modified_bmtsao.png"
-              alt="Founder"
+    <div className="about-container">
+      <Container>
+        <Row>
+          <Col>
+            <h2>About Us</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem
+              ipsum dolor sit amet consectetur adipisicing elit. Rerum, odit
+              quam quia aperiam eligendi, mollitia neque ipsum obcaecati
+              accusantium nemo eum aliquid, reiciendis illum nihil repellendus
+              perferendis. Fuga, sapiente. Sunt necessitatibus reprehenderit
+              aperiam expedita in optio quidem eos rerum tempora consequatur
+              fugiat officiis mollitia corporis, tempore ut. Debitis a expedita
+              eaque quisquam modi pariatur ea deleniti excepturi? Expedita enim,
+              minus illum nostrum, quibusdam commodi exercitationem quas
+              accusamus repellat libero, officia ab veritatis ea similique.
+              Quaerat eaque harum ea ipsa, dolorum eveniet totam non voluptatem
+              odit dignissimos cupiditate provident nostrum laboriosam. Ab amet
+              earum nesciunt quaerat consequuntur dolorem numquam quos vitae
+              quia quibusdam, unde, maiores nihil autem fugiat odio nisi iusto
+              delectus, eaque id reiciendis harum? Animi, ipsam veniam ipsa
+            </p>
+          </Col>
+          <Col className="about">
+            <img
+              width="480"
+              height="auto"
+              className="img-responsive"
+              src="https://i0.wp.com/the-14.com/wp-content/uploads/2022/05/Person-touching-a-grass.png?resize=1024%2C504&ssl=1"
+              alt="About us"
             />
-            <Typography>Talha Riaz</Typography>
-            <Button onClick={visitInstagram} color="primary">
-              Visit Instagram
-            </Button>
-            <span>This is an E-Commerce Wesbite Made By @Talha Riaz.</span>
-          </div>
-          <div className="aboutSectionContainer2">
-            <Typography component="h2">Our Brands</Typography>
-            <a
-              href="https://www.linkedin.com/in/talha-riaz-388691213"
-              target="blank"
-            >
-              <LinkedInIcon className="linkedinSvgIcon" />
-            </a>
-
-            <a
-              href="https://Wa.me/923244324155?text=Hi+there,+my+name+is"
-              target="blank"
-            >
-              <WhatsAppIcon className="whatsappSvgIcon" />
-            </a>
-          </div>
-        </div>
-      </div>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };

@@ -41,7 +41,7 @@ import UsersList from "./components/Admin/UsersList";
 import UpdateUser from "./components/Admin/UpdateUser";
 import ProductReviews from "./components/Admin/ProductReviews";
 import Contact from "./components/layout/Contact/Contact.js";
-import About from "./components/layout/About/About.js";
+import About from "./components/layout/About/About";
 import NotFound from "./components/layout/Not Found/NotFound.js";
 
 function App() {
@@ -73,7 +73,7 @@ function App() {
         ) : (
           <Header />
         )}
-        {isAuthenticated && <UserOptions user={user} />}
+        {/* {isAuthenticated && <UserOptions user={user} />} */}
         <Fragment>
           {/* <Elements stripe={loadStripe(stripeApiKey)}> */}
           <Routes>

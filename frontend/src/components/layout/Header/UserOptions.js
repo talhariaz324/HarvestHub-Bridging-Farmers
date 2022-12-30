@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { logout } from "../../../actions/userAction";
 import { useDispatch, useSelector } from "react-redux";
-
+import "./UserOptions.css";
 const UserOptions = ({ user }) => {
   const { cartItems } = useSelector((state) => state.cart);
 
@@ -85,53 +85,59 @@ const UserOptions = ({ user }) => {
 
   return (
     <Fragment>
-      <Backdrop open={open} style={{ zIndex: "10" }} />
-      <SpeedDial
-        ariaLabel="SpeedDial tooltip example"
-        onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
-        style={{ zIndex: "11" }}
-        open={open}
-        direction="down"
-        className="speedDial"
-        icon={
-          <img
-            className="speedDialIcon"
-            src={user.avatar.url ? user.avatar.url : "/Profile.png"}
-            alt="Profile"
-          />
-        }
-      >
-        {user.role === "admin"
-          ? options3.map((item) => (
-              <SpeedDialAction
-                key={item.name}
-                icon={item.icon}
-                tooltipTitle={item.name}
-                onClick={item.func}
-                tooltipOpen={window.innerWidth <= 600 ? true : false}
-              />
-            ))
-          : user.role === "vendor"
-          ? options2.map((item) => (
-              <SpeedDialAction
-                key={item.name}
-                icon={item.icon}
-                tooltipTitle={item.name}
-                onClick={item.func}
-                tooltipOpen={window.innerWidth <= 600 ? true : false}
-              />
-            ))
-          : options.map((item) => (
-              <SpeedDialAction
-                key={item.name}
-                icon={item.icon}
-                tooltipTitle={item.name}
-                onClick={item.func}
-                tooltipOpen={window.innerWidth <= 600 ? true : false}
-              />
-            ))}
-      </SpeedDial>
+      <div className="speed-dial">
+        <Backdrop open={open} style={{ zIndex: "10" }} />
+        <SpeedDial
+          ariaLabel="SpeedDial tooltip example"
+          onClose={() => setOpen(false)}
+          onOpen={() => setOpen(true)}
+          style={{ zIndex: "11" }}
+          open={open}
+          direction="down"
+          className="speedDial"
+          icon={
+            <img
+              className="speedDialIcon"
+              src={
+                user.avatar.url
+                  ? user.avatar.url
+                  : "../../../images/Profile.png"
+              }
+              alt="Profile"
+            />
+          }
+        >
+          {user.role === "admin"
+            ? options3.map((item) => (
+                <SpeedDialAction
+                  key={item.name}
+                  icon={item.icon}
+                  tooltipTitle={item.name}
+                  onClick={item.func}
+                  tooltipOpen={window.innerWidth <= 600 ? true : false}
+                />
+              ))
+            : user.role === "vendor"
+            ? options2.map((item) => (
+                <SpeedDialAction
+                  key={item.name}
+                  icon={item.icon}
+                  tooltipTitle={item.name}
+                  onClick={item.func}
+                  tooltipOpen={window.innerWidth <= 600 ? true : false}
+                />
+              ))
+            : options.map((item) => (
+                <SpeedDialAction
+                  key={item.name}
+                  icon={item.icon}
+                  tooltipTitle={item.name}
+                  onClick={item.func}
+                  tooltipOpen={window.innerWidth <= 600 ? true : false}
+                />
+              ))}
+        </SpeedDial>
+      </div>
     </Fragment>
   );
 };

@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Container,
@@ -18,7 +18,11 @@ import {
   NavbarText,
 } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import UserOptions from "../../../components/layout/Header/UserOptions.js";
 import Logo from "../../../images/logo1.png";
+import store from "../../.././store";
+import { loadUser } from "../../../actions/userAction";
+import { useSelector } from "react-redux";
 import {
   faSearch,
   faShoppingCart,
@@ -27,9 +31,46 @@ import {
 import "./Header.css";
 const NavbarComponent = (props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isActiveH, setIsActiveH] = useState(true);
+  const [isActiveP, setIsActiveP] = useState(false);
+  const [isActiveC, setIsActiveC] = useState(false);
+  const [isActiveA, setIsActiveA] = useState(false);
+  const [isActiveS, setIsActiveS] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
-
+  const whichActive = (element) => {
+    if (element === "H") {
+      setIsActiveH(true);
+      setIsActiveP(false);
+      setIsActiveA(false);
+      setIsActiveC(false);
+      setIsActiveS(false);
+    } else if (element === "P") {
+      setIsActiveH(false);
+      setIsActiveP(true);
+      setIsActiveA(false);
+      setIsActiveC(false);
+      setIsActiveS(false);
+    } else if (element === "A") {
+      setIsActiveH(false);
+      setIsActiveP(false);
+      setIsActiveA(true);
+      setIsActiveC(false);
+      setIsActiveS(false);
+    } else if (element === "C") {
+      setIsActiveH(false);
+      setIsActiveP(false);
+      setIsActiveA(false);
+      setIsActiveC(true);
+      setIsActiveS(false);
+    } else {
+      setIsActiveH(false);
+      setIsActiveP(false);
+      setIsActiveA(false);
+      setIsActiveC(false);
+      setIsActiveS(true);
+    }
+  };
   return (
     <div className="container-fluid ">
       <Navbar className="navbar light" light expand="md">
@@ -48,30 +89,85 @@ const NavbarComponent = (props) => {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mx-auto" navbar>
             <NavItem className="navItems">
-              <NavLink className="active ms-3 home">
-                <Link className=" text-light home" to="/">
+              <NavLink className=" ms-3 ">
+                <Link
+                  className={
+                    isActiveH ? "active text-light home" : "text-dark "
+                  }
+                  to="/"
+                  style={{ textDecoration: "none" }}
+                  onClick={() => {
+                    whichActive("H");
+                  }}
+                >
                   Home
                 </Link>
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className="ms-3" href="/products">
-                Products
+              <NavLink className="ms-3">
+                <Link
+                  className={
+                    isActiveP === true
+                      ? "active text-light home"
+                      : " text-dark "
+                  }
+                  style={{ textDecoration: "none" }}
+                  to="/products"
+                  onClick={() => {
+                    whichActive("P");
+                  }}
+                >
+                  Products
+                </Link>
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className="ms-3" href="/about">
-                About
+              <NavLink className="ms-3">
+                <Link
+                  className={
+                    isActiveA ? " active text-light home" : " text-dark "
+                  }
+                  style={{ textDecoration: "none" }}
+                  to="/about"
+                  onClick={() => {
+                    whichActive("A");
+                  }}
+                >
+                  About
+                </Link>
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className="ms-3" href="/contact">
-                Services
+              <NavLink className="ms-3">
+                <Link
+                  className={
+                    isActiveS ? "active text-light home " : " text-dark "
+                  }
+                  style={{ textDecoration: "none" }}
+                  to="/services"
+                  onClick={() => {
+                    whichActive("S");
+                  }}
+                >
+                  Services
+                </Link>
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className="ms-3" href="/contact">
-                Contact
+              <NavLink className="ms-3">
+                <Link
+                  className={
+                    isActiveC ? "active text-light home " : " text-dark "
+                  }
+                  style={{ textDecoration: "none" }}
+                  to="/contact"
+                  onClick={() => {
+                    whichActive("C");
+                  }}
+                >
+                  Contact
+                </Link>
               </NavLink>
             </NavItem>
           </Nav>

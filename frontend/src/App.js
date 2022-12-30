@@ -43,6 +43,8 @@ import ProductReviews from "./components/Admin/ProductReviews";
 import Contact from "./components/layout/Contact/Contact.js";
 import About from "./components/layout/About/About";
 import NotFound from "./components/layout/Not Found/NotFound.js";
+import Services from "./components/layout/Services/Services";
+import { Fab } from "@material-ui/core";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -73,9 +75,10 @@ function App() {
         ) : (
           <Header />
         )}
-        {/* {isAuthenticated && <UserOptions user={user} />} */}
+
         <Fragment>
           {/* <Elements stripe={loadStripe(stripeApiKey)}> */}
+          {isAuthenticated && <UserOptions user={user} />}
           <Routes>
             <Route
               exact
@@ -140,6 +143,17 @@ function App() {
               }
             />
             <Route path="*" element={<NotFound />} />
+            <Route
+              path="/services"
+              element={
+                !user ||
+                (user && (user.role === "farmer" || user.role === "buyer")) ? (
+                  <Services />
+                ) : (
+                  <NotFound />
+                )
+              }
+            />
             <Route exact path="/password/forgot" element={<ForgotPassword />} />
             <Route
               exact

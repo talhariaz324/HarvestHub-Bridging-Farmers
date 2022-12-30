@@ -95,7 +95,16 @@ const Products = ({ user }) => {
           </div>
 
           <div className="filterBox">
-            <Typography>Price</Typography>
+            <div
+              className="typography"
+              style={{
+                color: "white",
+                backgroundColor: "#097969",
+                paddingLeft: "10px",
+              }}
+            >
+              Price
+            </div>
             <Slider
               value={price}
               onChange={priceHandler}
@@ -104,8 +113,16 @@ const Products = ({ user }) => {
               min={0}
               max={25000}
             />
-
-            <Typography>Categories</Typography>
+            <div
+              className="typography"
+              style={{
+                color: "white",
+                backgroundColor: "#097969",
+                paddingLeft: "10px",
+              }}
+            >
+              Categories
+            </div>
             <ul className="categoryBox">
               {categories.map((category) => (
                 <li
@@ -117,9 +134,17 @@ const Products = ({ user }) => {
                 </li>
               ))}
             </ul>
-
-            <fieldset>
-              <Typography component="legend">Ratings Above</Typography>
+            
+              <div
+                className="typography"
+                style={{
+                  color: "white",
+                  backgroundColor: "#097969",
+                  paddingLeft: "10px",
+                }}
+              >
+                Rating
+              </div>
               <Slider
                 value={ratings}
                 onChange={(e, newRating) => {
@@ -130,7 +155,7 @@ const Products = ({ user }) => {
                 min={0}
                 max={5}
               />
-            </fieldset>
+            
           </div>
           {resultsPerPage < productsCount && ( // If condition true then show otherwise nothing show,
             <div className="paginationBox">

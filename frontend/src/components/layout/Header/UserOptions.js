@@ -12,10 +12,13 @@ import { useAlert } from "react-alert";
 import { logout } from "../../../actions/userAction";
 import { useDispatch, useSelector } from "react-redux";
 import "./UserOptions.css";
-const UserOptions = ({ user }) => {
+import { UncontrolledPopover, PopoverBody, Button } from "reactstrap";
+const UserOptions = ({ user, toggler }) => {
   const { cartItems } = useSelector((state) => state.cart);
+  const [popoverOpen, setPopoverOpen] = useState(false);
+  const toggle = () => setPopoverOpen(!popoverOpen);
 
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const alert = useAlert();
   const dispatch = useDispatch();
@@ -66,38 +69,47 @@ const UserOptions = ({ user }) => {
 
   function dashboard() {
     navigate("/admin/dashboard");
+    toggle();
+    toggler();
   }
 
   function orders() {
     navigate("/orders");
+    toggle();
+    toggler();
   }
   function account() {
     navigate("/account");
+    toggle();
+    toggler();
   }
   function cart() {
     navigate("/cart");
+    toggle();
+    toggler();
   }
   function logoutUser() {
     dispatch(logout());
     alert.show("Logout Successfully", { timeout: 2000 });
     navigate("/login");
+    toggle();
+    toggler();
   }
 
   return (
-    <Fragment>
-      <div className="speed-dial">
-        <Backdrop open={open} style={{ zIndex: "10" }} />
-        <SpeedDial
-          ariaLabel="SpeedDial tooltip example"
-          onClose={() => setOpen(false)}
-          onOpen={() => setOpen(true)}
-          style={{ zIndex: "11" }}
-          open={open}
-          direction="down"
-          className="speedDial"
-          icon={
+    <div>
+      <div id="icon-popover" onClick={toggle}>
+        <Button
+          color="success"
+          id=" floating-icon-button icon-button"
+          className=" floating-icon-button p-0"
+          // onClick={item.func}
+          // title={item.name}
+        >
+          {
             <img
-              className="speedDialIcon"
+              className="dpIcon"
+              style={{ borderRadius: "50%", width: "100px" }}
               src={
                 user.avatar.url
                   ? user.avatar.url
@@ -106,39 +118,52 @@ const UserOptions = ({ user }) => {
               alt="Profile"
             />
           }
-        >
+        </Button>
+      </div>
+      <UncontrolledPopover
+        placement="bottom"
+        target="icon-popover"
+        isOpen={popoverOpen}
+        toggle={toggle}
+      >
+        <PopoverBody>
           {user.role === "admin"
             ? options3.map((item) => (
-                <SpeedDialAction
-                  key={item.name}
-                  icon={item.icon}
-                  tooltipTitle={item.name}
+                <Button
+                  id="icon-button"
+                  className="p-0 m-3 success"
                   onClick={item.func}
-                  tooltipOpen={window.innerWidth <= 600 ? true : false}
-                />
+                  title={item.name}
+                >
+                  {item.icon}
+                </Button>
               ))
             : user.role === "vendor"
             ? options2.map((item) => (
-                <SpeedDialAction
-                  key={item.name}
-                  icon={item.icon}
-                  tooltipTitle={item.name}
+                <Button
+                  style={{ marginRight: "2px", marginLeft: "2px" }}
+                  id="icon-button"
+                  className="p-0 m-3 success"
                   onClick={item.func}
-                  tooltipOpen={window.innerWidth <= 600 ? true : false}
-                />
+                  title={item.name}
+                >
+                  {item.icon}
+                </Button>
               ))
             : options.map((item) => (
-                <SpeedDialAction
-                  key={item.name}
-                  icon={item.icon}
-                  tooltipTitle={item.name}
+                <Button
+                  color="success"
+                  id="icon-button"
+                  className="p-0 m-1"
                   onClick={item.func}
-                  tooltipOpen={window.innerWidth <= 600 ? true : false}
-                />
+                  title={item.name}
+                >
+                  {item.icon}
+                </Button>
               ))}
-        </SpeedDial>
-      </div>
-    </Fragment>
+        </PopoverBody>
+      </UncontrolledPopover>
+    </div>
   );
 };
 

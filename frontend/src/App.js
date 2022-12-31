@@ -78,7 +78,7 @@ function App() {
 
         <Fragment>
           {/* <Elements stripe={loadStripe(stripeApiKey)}> */}
-          {isAuthenticated && <UserOptions user={user} />}
+
           <Routes>
             <Route
               exact
@@ -118,6 +118,11 @@ function App() {
               }
             />
             <Route exact path="/login" element={<LoginSignUp />} />
+            {/* <Route
+              exact
+              path="/userOptions"
+              element={isAuthenticated && <UserOptions user={user} />}
+            /> */}
             <Route
               exact
               path="/contact"
@@ -190,8 +195,8 @@ and admin and vendor == adminDashboard */}
               {/* {stripeApiKey && (
                   <Route exact path="/process/payment" element={<Payment />} />
                 )} */}
-              <Route exact path="/success" element={<OrderSuccess />} />
               <Route exact path="/orders" element={<MyOrders />} />
+              <Route exact path="/success" element={<OrderSuccess />} />
               <Route exact path="/order/:id" element={<OrderDetails />} />
               <Route
                 exact

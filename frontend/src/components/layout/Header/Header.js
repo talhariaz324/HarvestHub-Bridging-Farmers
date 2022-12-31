@@ -36,8 +36,15 @@ const NavbarComponent = (props) => {
   const [isActiveC, setIsActiveC] = useState(false);
   const [isActiveA, setIsActiveA] = useState(false);
   const [isActiveS, setIsActiveS] = useState(false);
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
 
-  const toggle = () => setIsOpen(!isOpen);
+  const toggle = () => {
+    // debugger;
+    setIsOpen(!isOpen);
+  };
   const whichActive = (element) => {
     if (element === "H") {
       setIsActiveH(true);
@@ -70,10 +77,16 @@ const NavbarComponent = (props) => {
       setIsActiveC(false);
       setIsActiveS(true);
     }
+    toggle();
   };
   return (
     <div className="container-fluid ">
-      <Navbar className="navbar light" light expand="md">
+      <Navbar
+        style={{ backgroundColor: "white" }}
+        className="navbar light"
+        light
+        expand="lg"
+      >
         <NavbarBrand>
           <Link className="img" to="/">
             <img
@@ -86,8 +99,18 @@ const NavbarComponent = (props) => {
           </Link>
         </NavbarBrand>
         <NavbarToggler onClick={toggle} />
-        <Collapse isOpen={isOpen} navbar>
-          <Nav className="mx-auto" navbar>
+        <Collapse
+          className="text-center p-3 "
+          style={{
+            // backgroundColor: "white",
+            position: "relative",
+            zIndex: 1,
+          }}
+          isOpen={isOpen}
+          navbar
+        >
+          <Nav  style={{
+            backgroundColor: "white",}} className="mx-auto" navbar>
             <NavItem className="navItems">
               <NavLink className=" ms-3 ">
                 <Link
@@ -172,7 +195,7 @@ const NavbarComponent = (props) => {
             </NavItem>
           </Nav>
           <NavbarText className="icons">
-            <Link to="/search">
+            {/* <Link to="/search">
               <FontAwesomeIcon color="#097969" id="search" icon={faSearch} />
             </Link>
             <Link to="/cart">
@@ -184,8 +207,9 @@ const NavbarComponent = (props) => {
             </Link>
             <Link to="/login">
               <FontAwesomeIcon color="#097969" id="user" icon={faUser} />
-            </Link>
+            </Link> */}
           </NavbarText>
+          {isAuthenticated && <UserOptions user={user} toggler={toggle} />}
         </Collapse>
       </Navbar>
     </div>

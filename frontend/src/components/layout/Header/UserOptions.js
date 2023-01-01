@@ -109,7 +109,7 @@ const UserOptions = ({ user, toggler }) => {
           {
             <img
               className="dpIcon"
-              style={{ borderRadius: "50%", width: "100px" }}
+              style={{ borderRadius: "50%", width: "60px", height: "60px" }}
               src={
                 user.avatar.url
                   ? user.avatar.url

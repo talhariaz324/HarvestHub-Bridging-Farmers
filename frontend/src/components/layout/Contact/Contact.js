@@ -14,28 +14,34 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 import "./Contact.css";
-
+import { useDispatch } from "react-redux";
+import { clearErrors, createContact } from "../../../actions/contactAction";
+import { useAlert } from "react-alert";
 const Contact = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState("");
 
+  const dispatch = useDispatch();
+  const alert = useAlert();
   const handleSubmit = (e) => {
     e.preventDefault();
-    setError("");
-    setSubmitted(false);
+    const myForm = new FormData();
 
-    if (!name || !email || !phone || !message) {
-      setError("All fields are required");
-      return;
+    myForm.set("name", name);
+    myForm.set("phone", phone);
+    myForm.set("email", email);
+    myForm.set("message", message);
+    if (!phone || !name || !email || !message) {
+      alert.show("Kindly fill right details!", { timeout: 2000 });
+    } else if (phone.toString().length !== 11) {
+      alert.show("Phone Details should be 11", { timeout: 2000 });
+    } else {
+      alert.show("Successfully Send", { timeout: 2000 });
+
+      dispatch(createContact(myForm));
     }
-
-    // Send form data to server or handle form submission here
-
-    setSubmitted(true);
   };
 
   return (
@@ -95,6 +101,7 @@ const Contact = () => {
                 Phone
               </Label>
               <Input
+                // maxLength={11}
                 type="text"
                 name="phone"
                 id="phone"

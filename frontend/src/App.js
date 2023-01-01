@@ -37,7 +37,9 @@ import NewProduct from "./components/Admin/NewProduct.js";
 import UpdateProduct from "./components/Admin/UpdateProduct";
 import OrderList from "./components/Admin/OrderList";
 import ProcessOrder from "./components/Admin/ProcessOrder";
+import MessageDetails from "./components/Admin/MessageDetails.js";
 import UsersList from "./components/Admin/UsersList";
+import Messages from "./components/Admin/Messages.js";
 import UpdateUser from "./components/Admin/UpdateUser";
 import ProductReviews from "./components/Admin/ProductReviews";
 import Contact from "./components/layout/Contact/Contact.js";
@@ -228,7 +230,13 @@ and admin and vendor == adminDashboard */}
                 path="/admin/order/:id"
                 element={<ProcessOrder user={user} />}
               />
+              <Route
+                exact
+                path="/admin/messages/:id"
+                element={<MessageDetails />}
+              />
               <Route exact path="/admin/users" element={<UsersList />} />
+              <Route exact path="/admin/messages" element={<Messages />} />
               <Route exact path="/admin/user/:id" element={<UpdateUser />} />
               <Route exact path="/admin/reviews" element={<ProductReviews />} />
             </Route>

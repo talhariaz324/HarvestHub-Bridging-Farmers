@@ -1,6 +1,6 @@
 import React from "react";
 import "./sidebar.css";
-import logo from "../../images/logo.png";
+import logo from "../../images/logo1.png";
 import { Link } from "react-router-dom";
 import { TreeView, TreeItem } from "@material-ui/lab";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -50,6 +50,15 @@ const Sidebar = () => {
         <Link to="/admin/users">
           <p>
             <PeopleIcon /> Users
+          </p>
+        </Link>
+      ) : (
+        ""
+      )}
+      {user.role === "admin" ? (
+        <Link to="/admin/messages">
+          <p>
+            <PeopleIcon /> Messages
           </p>
         </Link>
       ) : (

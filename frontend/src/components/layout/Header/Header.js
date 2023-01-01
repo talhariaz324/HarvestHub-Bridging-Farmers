@@ -109,8 +109,13 @@ const NavbarComponent = (props) => {
           isOpen={isOpen}
           navbar
         >
-          <Nav  style={{
-            backgroundColor: "white",}} className="mx-auto" navbar>
+          <Nav
+            style={{
+              backgroundColor: "white",
+            }}
+            className="mx-auto"
+            navbar
+          >
             <NavItem className="navItems">
               <NavLink className=" ms-3 ">
                 <Link
@@ -204,10 +209,10 @@ const NavbarComponent = (props) => {
                 id="cart"
                 icon={faShoppingCart}
               />
-            </Link>
+            </Link>*/}
             <Link to="/login">
               <FontAwesomeIcon color="#097969" id="user" icon={faUser} />
-            </Link> */}
+            </Link>
           </NavbarText>
           {isAuthenticated && <UserOptions user={user} toggler={toggle} />}
         </Collapse>

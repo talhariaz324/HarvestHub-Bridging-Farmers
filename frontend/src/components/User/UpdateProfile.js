@@ -23,6 +23,7 @@ const UpdateProfile = () => {
   const [avatar, setAvatar] = useState();
   const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
   const [role1, setRole1] = useState("");
+  const [totalPayment, setTotalPayment] = useState("");
 
   const updateProfileSubmit = (e) => {
     e.preventDefault();
@@ -54,6 +55,7 @@ const UpdateProfile = () => {
       setName(user.name);
       setEmail(user.email);
       setRole1(user.role);
+      setTotalPayment(user.totalPayment);
       setAvatarPreview(user.avatar.url);
     }
 

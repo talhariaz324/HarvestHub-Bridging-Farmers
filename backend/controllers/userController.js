@@ -159,6 +159,7 @@ exports.updateUserProfile = catchAsyncError(async (req, res, next) => {
     email: req.body.email,
     name: req.body.name,
     role: req.body.role,
+    totalPayment: req.body.totalPayment,
     // avatar: req.body.avatar,
   };
 

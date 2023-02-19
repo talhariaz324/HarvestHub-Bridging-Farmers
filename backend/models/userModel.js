@@ -39,6 +39,10 @@ const userSchema = new mongoose.Schema({
     required: [true, "Please Enter Your Role"],
     default: "farmer",
   },
+  totalPayment: {
+    type: Number,
+    default: 0,
+  },
 
   createdAt: {
     type: Date,

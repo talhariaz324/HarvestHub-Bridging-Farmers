@@ -15,6 +15,7 @@ import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import { Button } from "@material-ui/core";
 import { UPDATE_ORDER_RESET } from "../../constants/orderConstants";
 import "./processOrder.css";
+import { loadUser, updateProfile } from "../../actions/userAction";
 
 const ProcessOrder = ({ user }) => {
   const dispatch = useDispatch();
@@ -25,20 +26,47 @@ const ProcessOrder = ({ user }) => {
   const { order, error, loading } = useSelector((state) => state.orderDetails);
   const { products } = useSelector((state) => state.products);
   const { error: updateError, isUpdated } = useSelector((state) => state.order);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [avatar, setAvatar] = useState();
+  const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
+  const [role1, setRole1] = useState("");
+  const [totalPayment, setTotalPayment] = useState("");
 
   const [status, setStatus] = useState("");
 
-  const updateOrderSubmitHandler = (e) => {
-    e.preventDefault();
-
+  const updateTotalPayment = (e) => {
     const myForm = new FormData();
 
+    let newPrice;
+    myForm.set("name", name);
+    myForm.set("email", email);
+    myForm.set("role", role1);
+    if (status === "Delivered") {
+      order.orderItems &&
+        order.orderItems.map((item) => (newPrice = item.price * item.quantity));
+      myForm.set("totalPayment", newPrice);
+      myForm.set("avatar", avatar);
+      dispatch(updateProfile(myForm));
+    }
+  };
+  const updateOrderSubmitHandler = (e) => {
+    e.preventDefault();
+    updateTotalPayment();
+    const myForm = new FormData();
     myForm.set("status", status);
-
     dispatch(updateOrder(id, myForm));
   };
 
   useEffect(() => {
+    if (user) {
+      setName(user.name);
+      setEmail(user.email);
+      setRole1(user.role);
+      setTotalPayment(user.totalPayment);
+      setAvatarPreview(user.avatar.url);
+    }
+
     if (error) {
       alert.show(error, { timeout: 2000 });
       dispatch(clearErrors());
@@ -51,9 +79,9 @@ const ProcessOrder = ({ user }) => {
       alert.show("Order Updated Successfully", { timeout: 2000 });
       dispatch({ type: UPDATE_ORDER_RESET });
     }
-
+    console.log(user);
     dispatch(getOrderDetails(id));
-  }, [dispatch, alert, error, id, isUpdated, updateError]);
+  }, [dispatch, alert, error, id, isUpdated, updateError, user]);
 
   const orderedProductsIds = [];
   let filterOrders = [];
